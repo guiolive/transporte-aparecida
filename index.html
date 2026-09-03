@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de custo: transporte Aparecida e intercampi UFG</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#222;background:#fff;line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+h1{font-size:22px;color:#1F4E78;margin:0 0 4px;font-weight:bold}
+h2{font-size:17px;color:#1F4E78;border-bottom:2px solid #1F4E78;padding-bottom:4px;margin:34px 0 12px}
+h3{font-size:14px;color:#1F4E78;margin:18px 0 8px}
+.sub{color:#555;margin:0 0 6px}
+.meta{font-size:12px;color:#666;margin-bottom:10px}
+table{border-collapse:collapse;width:100%;margin:8px 0 12px;font-size:13px}
+th,td{border:1px solid #1F4E78;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#1F4E78;color:#fff;font-weight:bold}
+td.num,th.num{text-align:right;white-space:nowrap}
+tr.total td{background:#E9EEF4;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.box{border:1px solid #1F4E78;padding:14px}
+.box h3{margin-top:0}
+label{display:block;font-size:12px;color:#444;margin:8px 0 2px}
+input,select{width:100%;padding:6px;border:1px solid #888;font-family:Arial;font-size:14px;border-radius:0}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.kpi div{border:1px solid #1F4E78;padding:10px}
+.kpi b{display:block;font-size:20px;color:#1F4E78}
+.kpi span{font-size:12px;color:#555}
+#map{height:420px;border:1px solid #1F4E78;margin:8px 0}
+.note{font-size:12px;color:#555;margin:6px 0}
+ol,ul{padding-left:20px;margin:6px 0}
+a{color:#1F4E78}
+.leg{display:inline-block;width:26px;height:4px;vertical-align:middle;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Transporte para o Câmpus Aparecida de Goiânia</h1>
+<p class="sub">Painel de custo estimado: linha Terminal Araguaia → Câmpus e linha intercampi Samambaia → Colemar → Aparecida</p>
+<p class="meta">DLOG/PROAD/UFG. Elaborado em 03/09/2026. Distâncias e tempos do Google Maps (consulta em 03/09/2026, trânsito típico de quinta-feira, horário de partida configurado); traçado do mapa por OSRM. Preços por km extraídos de contratos vigentes no PNCP (2025/2026). Valores são referenciais para decisão preliminar e devem ser confirmados em pesquisa de preços formal.</p>
+
+<h2>1. Rotas</h2>
+<div id="map"></div>
+<p class="note"><span class="leg" style="background:#1F4E78"></span>Intercampi Samambaia → Colemar → Aparecida &nbsp; <span class="leg" style="background:#C0504D"></span>Terminal Araguaia → Câmpus Aparecida</p>
+<table>
+<tr><th>Trecho</th><th>Partida</th><th class="num">Distância</th><th class="num">Tempo típico (Google Maps)</th><th>Via</th></tr>
+<tr><td rowspan="3">Terminal Araguaia → Câmpus Aparecida <a href="https://www.google.com/maps/dir/Terminal+Araguaia,+Aparecida+de+Goi%C3%A2nia/UFG+-+Campus+Aparecida+de+Goi%C3%A2nia,+Estrada+Municipal,+Fazenda+Santo+Ant%C3%B4nio,+Aparecida+de+Goi%C3%A2nia/" target="_blank">abrir no Maps</a></td><td>6h50</td><td class="num">10,8 km</td><td class="num">14 a 24 min</td><td>Av. Santana</td></tr>
+<tr><td>12h40</td><td class="num">10,8 km</td><td class="num">14 a 22 min</td><td>Av. Santana</td></tr>
+<tr><td>17h30</td><td class="num">10,8 km</td><td class="num">14 a 26 min</td><td>Av. Santana</td></tr>
+<tr><td>Câmpus Aparecida → Terminal Araguaia</td><td>22h10</td><td class="num">10,4 km</td><td class="num">14 a 20 min</td><td>Av. Santana</td></tr>
+<tr><td rowspan="2">Samambaia → Colemar → Câmpus Aparecida <a href="https://www.google.com/maps/dir/Universidade+Federal+de+Goi%C3%A1s+-+C%C3%A2mpus+Samambaia,+Goi%C3%A2nia/Pra%C3%A7a+Universit%C3%A1ria,+Setor+Leste+Universit%C3%A1rio,+Goi%C3%A2nia/UFG+-+Campus+Aparecida+de+Goi%C3%A2nia,+Estrada+Municipal,+Fazenda+Santo+Ant%C3%B4nio,+Aparecida+de+Goi%C3%A2nia/" target="_blank">abrir no Maps</a></td><td>6h50</td><td class="num">35,9 a 37,8 km</td><td class="num">40 min a 1h15</td><td>Av. Pedro Paulo de Souza</td></tr>
+<tr><td>12h50</td><td class="num">35,6 a 37,5 km</td><td class="num">40 min a 1h15</td><td>Av. Pedro Paulo de Souza</td></tr>
+<tr><td rowspan="2">Câmpus Aparecida → Colemar → Samambaia</td><td>12h00</td><td class="num">36,6 a 36,8 km</td><td class="num">40 min a 1h10</td><td>BR-153</td></tr>
+<tr><td>18h00</td><td class="num">36,6 a 36,8 km</td><td class="num">45 min a 1h15</td><td>BR-153</td></tr>
+<tr class="total"><td colspan="2">Referência sem trânsito (OSRM)</td><td class="num">11,4 km / 38,6 km</td><td class="num">24 min / 53 min</td><td>Estudo anterior: 38,2 km, 54 min</td></tr>
+</table>
+
+<h2>2. Referências de preço (PNCP)</h2>
+<table>
+<tr><th>Órgão / contrato</th><th>Modelo de remuneração</th><th class="num">Preço homologado</th><th>Leitura para a UFG</th></tr>
+<tr><td>UFPI, Contratos 04, 18 e outros/2025 (Pregão 90020/2024), Lokal Rent a Car. <a href="https://pncp.gov.br/app/contratos/06517387000134/2025/47" target="_blank">PNCP</a></td><td>Ônibus com motorista e combustível, franquia 3.000 km/mês, pago por km (36.000 km/ano)</td><td class="num">R$ 9,26 a 10,35 / km<br>≈ R$ 27,8 a 31,0 mil/mês por ônibus</td><td>Referência mais próxima de uma linha dedicada com veículo à disposição. É o teto razoável para ônibus convencional.</td></tr>
+<tr><td>UFC, Contratos 17 e 24/2026 (Pregão 210/2025), JR Transportes / Transhorizonte / Viva. <a href="https://pncp.gov.br/app/contratos/07272636000131/2026/70" target="_blank">PNCP</a></td><td>Km rodado por tipo de veículo (van, micro, ônibus urbano e rodoviário), sem dedicação exclusiva</td><td class="num">R$ 5,29 a 13,75 / km<br>(faixa por porte do veículo)</td><td>Mostra a escala de preço por porte: van na faixa de R$ 5 a 6, micro R$ 7 a 10, ônibus rodoviário até R$ 13,75. Modelo por demanda, sem piso mensal.</td></tr>
+<tr><td>UFRJ, Contrato 07/2026 (campus Macaé), Confianza Transportes. <a href="https://pncp.gov.br/app/contratos/33663683000116/2026/18" target="_blank">PNCP</a></td><td>Linha interpolos com ônibus, motorista e combustível, remuneração por km rodado, medição mensal</td><td class="num">R$ 123.493 / mês<br>(R$ 1,48 milhão/ano)</td><td>Operação de mais de um veículo, dia inteiro, em cidade média. Ordem de grandeza de um serviço maduro, não de um piloto.</td></tr>
+<tr><td>IFPE, Contrato 01/2026 (Campus Cabo de Santo Agostinho). <a href="https://pncp.gov.br/app/contratos/10767239000145/2026/18" target="_blank">PNCP</a></td><td>Circular com ônibus urbano (44 lugares), motorista, combustível, manutenção e seguro; pagamento por viagem efetivamente realizada</td><td class="num">R$ 637.200 / 10 meses<br>≈ R$ 63,7 mil/mês (3 unidades)</td><td>Circular curto entre ponto de integração e campus, o caso mais parecido com o trecho Terminal Araguaia → Câmpus. Cerca de R$ 21 mil/mês por unidade contratada.</td></tr>
+<tr><td>UFPel, Contrato 58/2025, Kopereck. <a href="https://pncp.gov.br/app/contratos/92242080000100/2025/1748" target="_blank">PNCP</a></td><td>Reforço da linha de apoio, pago por passagem (3,3 milhões em 5 anos, R$ 28,2 milhões)</td><td class="num">R$ 8,55 / passageiro</td><td>Modelo por passageiro só faz sentido com demanda alta e medida (UFPel: 90 mil passageiros/mês). Não recomendado para piloto.</td></tr>
+<tr><td>Município de Tucumã/PA, Contrato 2024 (SRP 9/2023-075)</td><td>Van com motorista, por km</td><td class="num">R$ 7,47 / km</td><td>Piso de mercado para van em cidade pequena.</td></tr>
+</table>
+<p class="note">Faixa adotada para Goiânia/Aparecida, com veículo e motorista dedicados (o preço por km cai quando a franquia mensal sobe; abaixo de 2.500 km/mês o fornecedor tende a cobrar um piso mensal): van 15 lugares R$ 6,50 a 8,00/km (piso ≈ R$ 14 mil/mês); micro-ônibus 28 lugares R$ 8,00 a 9,50/km (piso ≈ R$ 18 mil/mês); ônibus 44 lugares R$ 9,50 a 11,00/km (piso ≈ R$ 24 mil/mês).</p>
+
+<h2>3. Painel de custo</h2>
+<div class="grid">
+
+<div class="box">
+<h3>Linha A. Terminal Araguaia → Câmpus Aparecida</h3>
+<p class="note">Quadro proposto: 2 viagens de manhã, 2 à tarde, 2 à noite (18h e 22h). O veículo percorre ida e volta em cada viagem (retorna vazio ao terminal ou ao câmpus), então a quilometragem paga é de 21,6 km por viagem (10,8 km por sentido, Google Maps).</p>
+<table>
+<tr><th>Saída</th><th>Sentido</th><th>Atende</th></tr>
+<tr><td>6h50</td><td>Terminal → Câmpus</td><td>Aula das 7h30 (chega 7h05 a 7h15)</td></tr>
+<tr><td>7h40</td><td>Terminal → Câmpus</td><td>Segundo horário / servidores</td></tr>
+<tr><td>12h40</td><td>Terminal → Câmpus</td><td>Aula das 13h30 (chega 12h55 a 13h05)</td></tr>
+<tr><td>13h40</td><td>Terminal → Câmpus</td><td>Segundo horário</td></tr>
+<tr><td>18h20</td><td>Terminal → Câmpus</td><td>Aula das 19h (chega 18h35 a 18h50)</td></tr>
+<tr><td>22h10</td><td>Câmpus → Terminal</td><td>Saída do noturno (chega 22h25 a 22h30)</td></tr>
+</table>
+<label>Viagens por dia</label><input id="a_v" type="number" value="6" min="1">
+<label>Quilometragem paga</label>
+<select id="a_sent">
+<option value="21.6|1" selected>Ida e volta (21,6 km por viagem, veículo dedicado)</option>
+<option value="10.8|0">Apenas terminal → câmpus (10,8 km por viagem, por demanda, sem piso)</option>
+</select>
+<label>Km pago por viagem</label><input id="a_km" type="number" value="21.6" step="0.1">
+<label>Dias letivos por mês</label><input id="a_d" type="number" value="22">
+<label>Veículo</label>
+<select id="a_tipo">
+<option value="6.5|8|14000">Van 15 lugares</option>
+<option value="8|9.5|18000" selected>Micro-ônibus 28 lugares</option>
+<option value="9.5|11|24000">Ônibus 44 lugares</option>
+</select>
+<div class="kpi">
+<div><b id="a_kmmes">0</b><span>km/mês</span></div>
+<div><b id="a_min">0</b><span>R$/mês (faixa inferior)</span></div>
+<div><b id="a_max">0</b><span>R$/mês (faixa superior)</span></div>
+</div>
+<p class="note" id="a_obs"></p>
+</div>
+
+<div class="box">
+<h3>Linha B. Intercampi Samambaia → Colemar → Aparecida</h3>
+<p class="note">Quadro do estudo anterior: 2 ciclos por dia (ida pela manhã e retorno ao meio-dia; ida à tarde e retorno no fim do dia), cerca de 36,5 km por sentido (Google Maps). Um único veículo consome quase a jornada inteira de um motorista (Lei 13.103/2015, 5h30 de direção contínua).</p>
+<table>
+<tr><th>Saída</th><th>Sentido</th><th>Chegada prevista</th></tr>
+<tr><td>6h50</td><td>Samambaia → Colemar → Aparecida</td><td>7h30 a 8h05</td></tr>
+<tr><td>12h00</td><td>Aparecida → Colemar → Samambaia</td><td>12h40 a 13h10</td></tr>
+<tr><td>12h50</td><td>Samambaia → Colemar → Aparecida</td><td>13h30 a 14h05</td></tr>
+<tr><td>18h00</td><td>Aparecida → Colemar → Samambaia</td><td>18h45 a 19h15</td></tr>
+</table>
+<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="4" min="1">
+<label>Km por viagem</label><input id="b_km" type="number" value="36.5" step="0.1">
+<label>Dias letivos por mês</label><input id="b_d" type="number" value="22">
+<label>Veículo</label>
+<select id="b_tipo">
+<option value="6.5|8|14000">Van 15 lugares</option>
+<option value="8|9.5|18000" selected>Micro-ônibus 28 lugares</option>
+<option value="9.5|11|24000">Ônibus 44 lugares</option>
+</select>
+<div class="kpi">
+<div><b id="b_kmmes">0</b><span>km/mês</span></div>
+<div><b id="b_min">0</b><span>R$/mês (faixa inferior)</span></div>
+<div><b id="b_max">0</b><span>R$/mês (faixa superior)</span></div>
+</div>
+<p class="note" id="b_obs"></p>
+</div>
+</div>
+
+<h3>Resumo anual (calendário letivo de 9 meses, 2 semestres)</h3>
+<table>
+<tr><th>Cenário</th><th class="num">Mensal (faixa)</th><th class="num">Anual, 9 meses (faixa)</th></tr>
+<tr><td>Linha A isolada</td><td class="num" id="r_a_m"></td><td class="num" id="r_a_y"></td></tr>
+<tr><td>Linha B isolada</td><td class="num" id="r_b_m"></td><td class="num" id="r_b_y"></td></tr>
+<tr class="total"><td>A + B (dois veículos, contrato único)</td><td class="num" id="r_ab_m"></td><td class="num" id="r_ab_y"></td></tr>
+</table>
+
+
+<h2>4. Frota própria: motorista da UFG nos 3 turnos</h2>
+<p class="note">Premissa: motorista a R$ 6.300/mês (salário e encargos), jornada de 40 horas semanais, 8 horas por dia, com intervalo. Regras da Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas. As escalas abaixo cobrem manhã, tarde e noite com dois turnos de 8 horas por linha.</p>
+<div class="grid">
+<div class="box">
+<h3>Escala Linha A (Terminal Araguaia)</h3>
+<table>
+<tr><th>Turno</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
+<tr><td>1</td><td>6h20 às 14h20</td><td>6h50, 7h40, 12h40, 13h40</td><td class="num">≈ 1h40</td></tr>
+<tr><td>2</td><td>14h40 às 22h40</td><td>18h20, 22h10</td><td class="num">≈ 0h50</td></tr>
+</table>
+<p class="note">Dois motoristas cobrem os três períodos. A ociosidade é alta (cerca de 2h30 de direção em 16 horas de jornada), o que reforça compartilhar o motorista com outras demandas da CTR nos intervalos.</p>
+</div>
+<div class="box">
+<h3>Escala Linha B (Intercampi)</h3>
+<table>
+<tr><th>Turno</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
+<tr><td>1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta</td><td class="num">≈ 2h20</td></tr>
+<tr><td>2</td><td>12h30 às 20h30</td><td>12h50 ida, 18h00 volta</td><td class="num">≈ 2h20</td></tr>
+</table>
+<p class="note">Dois motoristas. Um só não cobre 13 horas de janela dentro de 8 horas de jornada, mesmo com 5h30 de direção permitida.</p>
+</div>
+</div>
+
+<div class="box" style="margin-top:20px">
+<h3>Frota atual da CTR (levantamento de 30/04/2026, Fernando)</h3>
+<table>
+<tr><th>Tipo</th><th class="num">Qtd</th><th>Características</th><th>Uso possível nas linhas</th></tr>
+<tr><td>Ônibus rodoviário</td><td class="num">3</td><td>Ar condicionado e banheiro</td><td>Viagens de campo e longas distâncias. Não recomendado para linha urbana curta (custo por km alto, banheiro sem uso).</td></tr>
+<tr><td>Ônibus rodoviário</td><td class="num">1</td><td>Ar condicionado, sem banheiro</td><td>Pode servir à Linha B (intercampi) se estiver ocioso nos horários.</td></tr>
+<tr><td>Ônibus rodoviário</td><td class="num">1</td><td>Apropriado para via sem pavimentação</td><td>Aulas de campo. Fora do escopo das linhas.</td></tr>
+<tr><td>Ônibus coletivo urbano</td><td class="num">2</td><td>Padrão urbano</td><td>Candidato natural à Linha B (intercampi) e à Linha A se a demanda passar de 28 passageiros por viagem.</td></tr>
+<tr><td>Micro-ônibus</td><td class="num">2</td><td>Apropriado para via sem pavimentação</td><td>Aulas de campo. Fora do escopo das linhas.</td></tr>
+<tr><td>Micro-ônibus</td><td class="num">1</td><td>Via pavimentada</td><td>Candidato natural à Linha A (Terminal Araguaia), 10,8 km em via urbana.</td></tr>
+<tr class="total"><td>Total</td><td class="num">10</td><td colspan="2">A UFG já tem veículo compatível para as duas linhas: 1 micro-ônibus urbano para a Linha A e 1 ônibus urbano para a Linha B. A compra só se justifica se esses veículos estiverem comprometidos com aulas de campo nos horários das linhas ou com manutenção acima do aceitável.</td></tr>
+</table>
+<label><input type="checkbox" id="f_usar" checked style="width:auto;margin-right:6px"> Usar veículos da frota atual (zera a coluna de aquisição)</label>
+<p class="note">Antes de decidir, a CTR precisa informar: idade e quilometragem dos dois veículos candidatos, histórico de manutenção de 12 meses e a agenda de uso atual (quantos dias por mês estão em aulas de campo). Um veículo que roda 2 dias por semana em campo não sustenta uma linha diária.</p>
+<h3>Cálculo</h3>
+<div class="grid">
+<div>
+<label>Custo mensal por motorista (R$)</label><input id="f_sal" type="number" value="6300">
+<label>Motoristas Linha A</label><input id="f_ma" type="number" value="2" min="0">
+<label>Motoristas Linha B</label><input id="f_mb" type="number" value="2" min="0">
+<label>Motoristas reserva (férias e faltas, compartilhados)</label><input id="f_res" type="number" value="1" min="0">
+</div>
+<div>
+<label>Custo operacional do veículo por km (combustível, manutenção, pneus, seguro; sem depreciação)</label><input id="f_km" type="number" value="2.9" step="0.1">
+<label>Preço de aquisição do veículo (R$, um por linha)</label><input id="f_preco" type="number" value="480000" step="10000">
+<label>Vida útil para rateio (anos)</label><input id="f_vida" type="number" value="10" min="1">
+<p class="note">Referências de aquisição (2026, valores de mercado a confirmar em pesquisa de preços): van 15 lugares R$ 350 a 400 mil; micro-ônibus 28 lugares R$ 450 a 550 mil; ônibus urbano 44 lugares R$ 750 a 950 mil. Rateio linear, sem juros. O custo por km acima é só operação; a depreciação entra na coluna de aquisição.</p>
+</div>
+</div>
+<table>
+<tr><th>Cenário</th><th class="num">Motoristas</th><th class="num">Folha</th><th class="num">Operação (km)</th><th class="num">Aquisição (rateio mensal)</th><th class="num">Total frota própria</th><th class="num">Fretamento (faixa)</th></tr>
+<tr><td>Linha A</td><td class="num" id="f_a_n"></td><td class="num" id="f_a_folha"></td><td class="num" id="f_a_veic"></td><td class="num" id="f_a_aq"></td><td class="num" id="f_a_tot"></td><td class="num" id="f_a_fret"></td></tr>
+<tr><td>Linha B</td><td class="num" id="f_b_n"></td><td class="num" id="f_b_folha"></td><td class="num" id="f_b_veic"></td><td class="num" id="f_b_aq"></td><td class="num" id="f_b_tot"></td><td class="num" id="f_b_fret"></td></tr>
+<tr class="total"><td>A + B com reserva</td><td class="num" id="f_ab_n"></td><td class="num" id="f_ab_folha"></td><td class="num" id="f_ab_veic"></td><td class="num" id="f_ab_aq"></td><td class="num" id="f_ab_tot"></td><td class="num" id="f_ab_fret"></td></tr>
+</table>
+<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um por linha (dois no cenário A + B), desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
+<p class="note">A folha da frota própria é custo fixo de 12 meses; o fretamento paga só meses letivos. Na comparação anual, multiplique a folha por 12 e o fretamento por 9. A frota própria só compensa se a UFG já tiver o veículo disponível e o motorista puder ser aproveitado em outras rotas nos intervalos.</p>
+</div>
+
+<h2>5. Pontos de decisão</h2>
+<ol>
+<li><b>Linha A duplica a Linha 555 da CMTC.</b> O trecho terminal → câmpus é serviço público concedido. Antes de contratar, cabe ofício da Reitoria à CMTC pedindo ampliação de horários da 555 com base na matrícula da FCT (cerca de 700 alunos em 2023). Custo zero para a UFG. A contratação própria deve ser apresentada como alternativa caso a CMTC não atenda.</li>
+<li><b>Linha A com 6 viagens usa cerca de 2.850 km/mês</b>, mesma franquia do contrato UFPI. Fornecedor tende a precificar como veículo dedicado, não por demanda. Se a Reitoria quiser reduzir, os horários de 7h40 e 13h40 são os primeiros a cortar (demanda incerta).</li>
+<li><b>Linha B (intercampi) atende docentes e técnicos</b>, não alunos. Fonte orçamentária e justificativa são diferentes da Linha A (assistência estudantil, PNAES, pode custear a A; a B é custeio administrativo).</li>
+<li><b>Contrato único com dois itens</b> (micro-ônibus por km, com franquia mínima) reduz custo de gestão e permite realocar o veículo entre linhas conforme a ocupação medida no piloto.</li>
+<li><b>Piloto de um semestre com contagem de embarques</b>, sem formulário de demanda, conforme o estudo anterior (modelo UnB e UNIRIO).</li>
+</ol>
+
+<h2>6. Fontes</h2>
+<ul>
+<li>PNCP, contratos citados na tabela 2 (consulta em 02 e 03/09/2026).</li>
+<li>Tempos e distâncias: Google Maps, trânsito típico de quinta-feira, consulta em 03/09/2026 com horário de partida definido. Traçado do mapa: OSRM (OpenStreetMap), coordenadas Terminal Araguaia (-16,8115; -49,2417), Câmpus Aparecida (-16,8437; -49,1768), Praça Universitária (-16,6768; -49,2440), Câmpus Samambaia (-16,6046; -49,2624).</li>
+<li>Linha 555 Terminal Araguaia / UFG Aparecida: FCT/UFG (set. 2023) e Portal 6 (29/09/2023).</li>
+<li>Estudo anterior DLOG: Estudo de viabilidade de transporte intercampi UFG (jul. 2026).</li>
+</ul>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+var rA=[[-16.81141, -49.24175], [-16.81128, -49.24129], [-16.81142, -49.24124], [-16.81186, -49.24193], [-16.81198, -49.24198], [-16.81225, -49.24254], [-16.81235, -49.24272], [-16.81253, -49.24271], [-16.81259, -49.2426], [-16.81256, -49.24244], [-16.81243, -49.24238], [-16.81171, -49.24119], [-16.8114, -49.24038], [-16.8115, -49.24019], [-16.81391, -49.24036], [-16.81517, -49.24032], [-16.81719, -49.24074], [-16.81821, -49.24101], [-16.81953, -49.24119], [-16.82119, -49.24154], [-16.82291, -49.24186], [-16.82399, -49.24208], [-16.8261, -49.24256], [-16.82651, -49.24278], [-16.82678, -49.24262], [-16.82689, -49.24226], [-16.82677, -49.24199], [-16.82612, -49.24202], [-16.82484, -49.24178], [-16.82448, -49.23945], [-16.82523, -49.23745], [-16.8261, -49.23551], [-16.82618, -49.23542], [-16.82615, -49.23529], [-16.82701, -49.23355], [-16.82851, -49.2302], [-16.83009, -49.22703], [-16.83044, -49.22642], [-16.83074, -49.22573], [-16.83142, -49.22435], [-16.83231, -49.22257], [-16.83329, -49.22148], [-16.83486, -49.21984], [-16.83611, -49.21856], [-16.83753, -49.21705], [-16.8385, -49.21628], [-16.83952, -49.2157], [-16.84137, -49.2144], [-16.84176, -49.21419], [-16.84354, -49.21351], [-16.84519, -49.21134], [-16.84597, -49.2087], [-16.84651, -49.20673], [-16.84654, -49.20618], [-16.84652, -49.20129], [-16.84663, -49.20109], [-16.84664, -49.20084], [-16.84642, -49.20072], [-16.84754, -49.18885], [-16.84624, -49.18606], [-16.84538, -49.1839], [-16.84529, -49.18192], [-16.84536, -49.17931], [-16.8457, -49.17703], [-16.8461, -49.17556], [-16.84616, -49.17549], [-16.84614, -49.17539], [-16.84606, -49.17534], [-16.84597, -49.17539], [-16.84595, -49.17548], [-16.84564, -49.1764], [-16.84539, -49.17633], [-16.84524, -49.17632], [-16.84509, -49.17639], [-16.84457, -49.17628], [-16.8443, -49.17612], [-16.84397, -49.17598], [-16.84362, -49.17595], [-16.84335, -49.17596], [-16.84322, -49.17603], [-16.84319, -49.17618], [-16.84329, -49.1763], [-16.84287, -49.17724], [-16.84328, -49.17658]], rB=[[-16.60513, -49.26254], [-16.60536, -49.26284], [-16.60595, -49.26267], [-16.60641, -49.26252], [-16.60662, -49.26229], [-16.60589, -49.25987], [-16.60562, -49.25905], [-16.60554, -49.25896], [-16.60535, -49.25894], [-16.60524, -49.25888], [-16.60516, -49.25872], [-16.6049, -49.25802], [-16.60454, -49.2575], [-16.60461, -49.25738], [-16.60456, -49.25727], [-16.60441, -49.25722], [-16.60435, -49.25685], [-16.60575, -49.25572], [-16.6088, -49.25349], [-16.60973, -49.25297], [-16.61003, -49.25287], [-16.6119, -49.25152], [-16.61205, -49.25137], [-16.61198, -49.25119], [-16.61158, -49.25003], [-16.61073, -49.24732], [-16.60989, -49.24452], [-16.60986, -49.24388], [-16.61106, -49.24375], [-16.61322, -49.24372], [-16.61361, -49.2437], [-16.61643, -49.24387], [-16.61753, -49.24398], [-16.62062, -49.24438], [-16.62253, -49.2445], [-16.62296, -49.24469], [-16.62329, -49.24453], [-16.62346, -49.24413], [-16.62408, -49.24376], [-16.62632, -49.2419], [-16.62759, -49.24057], [-16.62939, -49.23855], [-16.63036, -49.23798], [-16.6335, -49.23679], [-16.63485, -49.23732], [-16.63667, -49.23838], [-16.63831, -49.23936], [-16.64134, -49.24117], [-16.64234, -49.24188], [-16.64371, -49.24229], [-16.64486, -49.24216], [-16.64541, -49.24197], [-16.64612, -49.24177], [-16.64722, -49.24196], [-16.6497, -49.24352], [-16.65113, -49.24444], [-16.65292, -49.24562], [-16.6552, -49.2471], [-16.65549, -49.24728], [-16.65688, -49.248], [-16.65791, -49.24771], [-16.65853, -49.2475], [-16.65994, -49.24705], [-16.66027, -49.24694], [-16.66172, -49.24649], [-16.66373, -49.24586], [-16.66456, -49.24565], [-16.66491, -49.24564], [-16.66528, -49.24549], [-16.66555, -49.2453], [-16.66785, -49.24459], [-16.66798, -49.24458], [-16.6688, -49.24428], [-16.67061, -49.24371], [-16.67099, -49.24457], [-16.67247, -49.24409], [-16.67432, -49.24353], [-16.67593, -49.24302], [-16.67612, -49.24331], [-16.67641, -49.24432], [-16.67655, -49.24503], [-16.67658, -49.24522], [-16.67673, -49.24527], [-16.67687, -49.24512], [-16.67663, -49.24445], [-16.67635, -49.24347], [-16.67624, -49.24286], [-16.67604, -49.24267], [-16.67617, -49.24223], [-16.67644, -49.24223], [-16.67658, -49.24214], [-16.67697, -49.24212], [-16.67707, -49.2425], [-16.67708, -49.2427], [-16.67729, -49.24276], [-16.67739, -49.24262], [-16.6798, -49.24185], [-16.67993, -49.24183], [-16.68075, -49.24154], [-16.68147, -49.24135], [-16.68171, -49.24133], [-16.68249, -49.24242], [-16.68265, -49.24264], [-16.68419, -49.24271], [-16.68428, -49.24272], [-16.68673, -49.24282], [-16.68792, -49.24284], [-16.68799, -49.24292], [-16.6881, -49.24283], [-16.68818, -49.24263], [-16.68949, -49.24053], [-16.68994, -49.23977], [-16.69171, -49.23688], [-16.69394, -49.23449], [-16.69448, -49.23394], [-16.695, -49.23315], [-16.69546, -49.23274], [-16.69671, -49.23182], [-16.69793, -49.23164], [-16.69819, -49.23152], [-16.69857, -49.23143], [-16.69897, -49.23139], [-16.70266, -49.23119], [-16.70509, -49.231], [-16.70888, -49.23094], [-16.71013, -49.23134], [-16.71257, -49.23309], [-16.71805, -49.23759], [-16.71931, -49.23835], [-16.72368, -49.24006], [-16.72539, -49.24077], [-16.72731, -49.2415], [-16.72961, -49.24298], [-16.73177, -49.2437], [-16.73374, -49.24366], [-16.7367, -49.24291], [-16.74207, -49.24162], [-16.74293, -49.24142], [-16.7447, -49.24094], [-16.74529, -49.24082], [-16.74821, -49.24099], [-16.75045, -49.24142], [-16.75129, -49.2414], [-16.75298, -49.24121], [-16.75416, -49.2411], [-16.75695, -49.24095], [-16.75917, -49.2405], [-16.76614, -49.23969], [-16.76856, -49.23939], [-16.77178, -49.23853], [-16.77548, -49.23714], [-16.77741, -49.23693], [-16.78052, -49.23716], [-16.78428, -49.23747], [-16.78739, -49.23772], [-16.78855, -49.23788], [-16.78974, -49.23815], [-16.79102, -49.23829], [-16.79329, -49.23823], [-16.79876, -49.2387], [-16.80061, -49.239], [-16.80193, -49.23912], [-16.80615, -49.23931], [-16.81157, -49.23986], [-16.81495, -49.24015], [-16.81682, -49.24062], [-16.81807, -49.24097], [-16.81915, -49.24112], [-16.82105, -49.24151], [-16.8228, -49.24183], [-16.82346, -49.24196], [-16.826, -49.24253], [-16.82642, -49.24273], [-16.82671, -49.24271], [-16.82689, -49.24232], [-16.82683, -49.24206], [-16.82625, -49.24202], [-16.82527, -49.24187], [-16.82454, -49.23989], [-16.82516, -49.23761], [-16.82606, -49.23552], [-16.82617, -49.23545], [-16.82617, -49.23532], [-16.82647, -49.23464], [-16.82819, -49.23113], [-16.83006, -49.22704], [-16.83012, -49.22696], [-16.8306, -49.22602], [-16.83123, -49.22478], [-16.8321, -49.223], [-16.83294, -49.22183], [-16.83399, -49.22076], [-16.83586, -49.21883], [-16.83718, -49.21749], [-16.83785, -49.21677], [-16.83945, -49.21571], [-16.84095, -49.21472], [-16.84169, -49.21422], [-16.84336, -49.21363], [-16.84507, -49.21157], [-16.84546, -49.21061], [-16.84647, -49.20692], [-16.84654, -49.20636], [-16.84651, -49.20139], [-16.84659, -49.20114], [-16.84666, -49.2009], [-16.84649, -49.20073], [-16.84773, -49.1894], [-16.84686, -49.18745], [-16.84546, -49.18421], [-16.84527, -49.18234], [-16.84534, -49.17961], [-16.84556, -49.17754], [-16.84608, -49.17557], [-16.84615, -49.17551], [-16.84616, -49.17541], [-16.84608, -49.17535], [-16.84599, -49.17537], [-16.84595, -49.17546], [-16.84572, -49.1764], [-16.84543, -49.17635], [-16.84528, -49.17631], [-16.84512, -49.17638], [-16.84463, -49.1763], [-16.84437, -49.17616], [-16.84405, -49.17601], [-16.84371, -49.17595], [-16.84339, -49.17596], [-16.84325, -49.176], [-16.84319, -49.17614], [-16.84326, -49.17628], [-16.84291, -49.17715], [-16.84328, -49.17658], [-16.84328, -49.17658]];
+var map=L.map('map',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+var lB=L.polyline(rB,{color:'#1F4E78',weight:5}).addTo(map);
+var lA=L.polyline(rA,{color:'#C0504D',weight:5}).addTo(map);
+var pts=[[-16.6046,-49.2624,'Câmpus Samambaia'],[-16.6768,-49.2440,'Câmpus Colemar (Praça Universitária)'],[-16.8115,-49.2417,'Terminal Araguaia'],[-16.8437,-49.1768,'Câmpus Aparecida (FCT)']];
+pts.forEach(function(p){L.circleMarker([p[0],p[1]],{radius:7,color:'#1F4E78',fillColor:'#fff',fillOpacity:1,weight:2}).addTo(map).bindTooltip(p[2],{permanent:true,direction:'right',className:'lbl'});});
+map.fitBounds(L.featureGroup([lA,lB]).getBounds().pad(0.08));
+function brl(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});}
+function calc(p){
+  var v=+document.getElementById(p+'_v').value, km=+document.getElementById(p+'_km').value, d=+document.getElementById(p+'_d').value;
+  var t=document.getElementById(p+'_tipo').value.split('|'), lo=+t[0], hi=+t[1], piso=+t[2];
+  if(p==='a'){var sn=document.getElementById('a_sent').value.split('|'); if(sn[1]==='0'){piso=0; lo=lo*1.15; hi=hi*1.15;}}
+  var kmm=v*km*d, cmin=Math.max(kmm*lo,piso), cmax=Math.max(kmm*hi,piso);
+  document.getElementById(p+'_kmmes').textContent=Math.round(kmm).toLocaleString('pt-BR');
+  document.getElementById(p+'_min').textContent=brl(cmin);
+  document.getElementById(p+'_max').textContent=brl(cmax);
+  var obs= (p==='a' && piso===0)?'Modelo por demanda: paga só o km com passageiro. Só é viável se o fornecedor tiver outro uso para o veículo entre as viagens (modelo UFC). Preço por km 15% acima da faixa de veículo dedicado.':(kmm*lo<piso)?'Quilometragem abaixo do piso: o fornecedor cobra o veículo dedicado (≈ '+brl(piso)+'), não o km.':'Custo por km domina. Faixa por km: R$ '+lo.toFixed(2).replace('.',',')+' a '+hi.toFixed(2).replace('.',',')+'.';
+  document.getElementById(p+'_obs').textContent=obs;
+  return [cmin,cmax];
+}
+function all(){
+  var a=calc('a'), b=calc('b');
+  function fx(id,x){document.getElementById(id).textContent=brl(x[0])+' a '+brl(x[1]);}
+  fx('r_a_m',a); fx('r_a_y',[a[0]*9,a[1]*9]); fx('r_b_m',b); fx('r_b_y',[b[0]*9,b[1]*9]);
+  fx('r_ab_m',[a[0]+b[0],a[1]+b[1]]); fx('r_ab_y',[(a[0]+b[0])*9,(a[1]+b[1])*9]);
+  var sal=+document.getElementById('f_sal').value, ma=+document.getElementById('f_ma').value, mb=+document.getElementById('f_mb').value, res=+document.getElementById('f_res').value, ck=+document.getElementById('f_km').value;
+  var kma=+document.getElementById('a_v').value*+document.getElementById('a_km').value*+document.getElementById('a_d').value;
+  var kmb=+document.getElementById('b_v').value*+document.getElementById('b_km').value*+document.getElementById('b_d').value;
+  var preco=+document.getElementById('f_preco').value, vida=+document.getElementById('f_vida').value, aq=document.getElementById('f_usar').checked?0:preco/(vida*12);
+  function row(id,n,folha,veic,aqm,fret){document.getElementById(id+'_n').textContent=n;document.getElementById(id+'_folha').textContent=brl(folha);document.getElementById(id+'_veic').textContent=brl(veic);document.getElementById(id+'_aq').textContent=brl(aqm);document.getElementById(id+'_tot').textContent=brl(folha+veic+aqm);document.getElementById(id+'_fret').textContent=brl(fret[0])+' a '+brl(fret[1]);}
+  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq,b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,2*aq,[a[0]+b[0],a[1]+b[1]]);
+  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl(2*preco)+' para as duas linhas)';
+}
+document.getElementById('a_sent').addEventListener('change',function(){document.getElementById('a_km').value=this.value.split('|')[0];});
+document.querySelectorAll('input,select').forEach(function(e){e.addEventListener('input',all);e.addEventListener('change',all);});
+all();
+</script>
+<style>.lbl{background:#fff;border:1px solid #1F4E78;border-radius:0;font-family:Arial;font-size:11px;color:#1F4E78;box-shadow:none}.lbl:before{display:none}</style>
+</body></html>
