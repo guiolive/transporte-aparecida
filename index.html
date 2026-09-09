@@ -75,23 +75,24 @@ a{color:#1F4E78}
 
 <div class="box">
 <h3>Linha A. Terminal Araguaia → Câmpus Aparecida</h3>
-<p class="note">Quadro proposto: 2 viagens de manhã, 2 à tarde, 2 à noite (18h e 22h). O veículo percorre ida e volta em cada viagem (retorna vazio ao terminal ou ao câmpus), então a quilometragem paga é de 21,6 km por viagem (10,8 km por sentido, Google Maps).</p>
+<p class="note">Quadro proposto: 3 pares de ida e volta (manhã, tarde e noite), 6 viagens por dia. As viagens são encadeadas: o veículo sobe cheio ao câmpus antes da aula e desce cheio ao terminal depois da aula, sem retorno vazio. Quilometragem paga: 10,8 km por viagem (Google Maps).</p>
 <table>
 <tr><th>Saída</th><th>Sentido</th><th>Atende</th></tr>
-<tr><td>6h50</td><td>Terminal → Câmpus</td><td>Aula das 7h30 (chega 7h05 a 7h15)</td></tr>
-<tr><td>7h40</td><td>Terminal → Câmpus</td><td>Segundo horário / servidores</td></tr>
-<tr><td>12h40</td><td>Terminal → Câmpus</td><td>Aula das 13h30 (chega 12h55 a 13h05)</td></tr>
-<tr><td>13h40</td><td>Terminal → Câmpus</td><td>Segundo horário</td></tr>
-<tr><td>18h20</td><td>Terminal → Câmpus</td><td>Aula das 19h (chega 18h35 a 18h50)</td></tr>
+<tr><td>6h50</td><td>Terminal → Câmpus</td><td>Entrada do matutino, aula das 7h30 (chega 7h05 a 7h15)</td></tr>
+<tr><td>12h00</td><td>Câmpus → Terminal</td><td>Saída do matutino (chega 12h15 a 12h25)</td></tr>
+<tr><td>12h40</td><td>Terminal → Câmpus</td><td>Entrada do vespertino, aula das 13h30 (chega 12h55 a 13h05)</td></tr>
+<tr><td>18h00</td><td>Câmpus → Terminal</td><td>Saída do vespertino (chega 18h15 a 18h25)</td></tr>
+<tr><td>18h30</td><td>Terminal → Câmpus</td><td>Entrada do noturno, aula das 19h (chega 18h45 a 18h55)</td></tr>
 <tr><td>22h10</td><td>Câmpus → Terminal</td><td>Saída do noturno (chega 22h25 a 22h30)</td></tr>
 </table>
 <label>Viagens por dia</label><input id="a_v" type="number" value="6" min="1">
 <label>Quilometragem paga</label>
 <select id="a_sent">
-<option value="21.6|1" selected>Ida e volta (21,6 km por viagem, veículo dedicado)</option>
-<option value="10.8|0">Apenas terminal → câmpus (10,8 km por viagem, por demanda, sem piso)</option>
+<option value="10.8|1" selected>Viagens encadeadas ida/volta (10,8 km por viagem, veículo dedicado, com piso)</option>
+<option value="21.6|1">Cada viagem com retorno vazio (21,6 km por viagem, veículo dedicado)</option>
+<option value="10.8|0">Por demanda, sem veículo dedicado (10,8 km por viagem, sem piso)</option>
 </select>
-<label>Km pago por viagem</label><input id="a_km" type="number" value="21.6" step="0.1">
+<label>Km pago por viagem</label><input id="a_km" type="number" value="10.8" step="0.1">
 <label>Dias letivos por mês</label><input id="a_d" type="number" value="22">
 <label>Veículo</label>
 <select id="a_tipo">
@@ -109,15 +110,20 @@ a{color:#1F4E78}
 
 <div class="box">
 <h3>Linha B. Intercampi Samambaia → Colemar → Aparecida</h3>
-<p class="note">Quadro do estudo anterior: 2 ciclos por dia (ida pela manhã e retorno ao meio-dia; ida à tarde e retorno no fim do dia), cerca de 36,5 km por sentido (Google Maps). Um único veículo consome quase a jornada inteira de um motorista (Lei 13.103/2015, 5h30 de direção contínua).</p>
+<p class="note">Quadro com 3 pares de ida e volta (manhã, tarde e noite), 6 viagens por dia, cerca de 36,5 km por sentido (Google Maps). Um veículo só não fecha a troca de turno: às 12h e às 18h ele precisa estar nas duas pontas ao mesmo tempo, e cada perna leva 40 min a 1h15. Por isso o quadro usa dois veículos: V1 baseado em Samambaia (4 viagens) e V2 de apoio (2 viagens).</p>
 <table>
-<tr><th>Saída</th><th>Sentido</th><th>Chegada prevista</th></tr>
-<tr><td>6h50</td><td>Samambaia → Colemar → Aparecida</td><td>7h30 a 8h05</td></tr>
-<tr><td>12h00</td><td>Aparecida → Colemar → Samambaia</td><td>12h40 a 13h10</td></tr>
-<tr><td>12h50</td><td>Samambaia → Colemar → Aparecida</td><td>13h30 a 14h05</td></tr>
-<tr><td>18h00</td><td>Aparecida → Colemar → Samambaia</td><td>18h45 a 19h15</td></tr>
+<tr><th>Saída</th><th>Veículo</th><th>Sentido</th><th>Chegada prevista</th><th>Atende</th></tr>
+<tr><td>6h50</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>7h30 a 8h05</td><td>Entrada do matutino</td></tr>
+<tr><td>12h00</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>12h40 a 13h10</td><td>Saída do matutino</td></tr>
+<tr><td>12h40</td><td>V2</td><td>Samambaia → Colemar → Aparecida</td><td>13h20 a 13h55</td><td>Entrada do vespertino</td></tr>
+<tr><td>18h00</td><td>V2</td><td>Aparecida → Colemar → Samambaia</td><td>18h45 a 19h15</td><td>Saída do vespertino</td></tr>
+<tr><td>17h40</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>18h25 a 18h55</td><td>Entrada do noturno</td></tr>
+<tr><td>22h10</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>22h50 a 23h10</td><td>Saída do noturno</td></tr>
 </table>
-<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="4" min="1">
+<p class="note">Se a Reitoria decidir atender só docentes do matutino e vespertino, V2 sai do quadro e V1 faz 4 viagens (6h50, 12h00, 13h20 chegando às 14h25, 18h00). Nesse caso o vespertino chega depois das 14h.</p>
+<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="6" min="1">
+<label>Veículos dedicados</label>
+<select id="b_nv"><option value="1">1 (só matutino e vespertino, 4 viagens)</option><option value="2" selected>2 (três turnos, 6 viagens)</option></select>
 <label>Km por viagem</label><input id="b_km" type="number" value="36.5" step="0.1">
 <label>Dias letivos por mês</label><input id="b_d" type="number" value="22">
 <label>Veículo</label>
@@ -140,7 +146,7 @@ a{color:#1F4E78}
 <tr><th>Cenário</th><th class="num">Mensal (faixa)</th><th class="num">Anual, 9 meses (faixa)</th></tr>
 <tr><td>Linha A isolada</td><td class="num" id="r_a_m"></td><td class="num" id="r_a_y"></td></tr>
 <tr><td>Linha B isolada</td><td class="num" id="r_b_m"></td><td class="num" id="r_b_y"></td></tr>
-<tr class="total"><td>A + B (dois veículos, contrato único)</td><td class="num" id="r_ab_m"></td><td class="num" id="r_ab_y"></td></tr>
+<tr class="total"><td>A + B (contrato único)</td><td class="num" id="r_ab_m"></td><td class="num" id="r_ab_y"></td></tr>
 </table>
 
 
@@ -151,19 +157,20 @@ a{color:#1F4E78}
 <h3>Escala Linha A (Terminal Araguaia)</h3>
 <table>
 <tr><th>Turno</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
-<tr><td>1</td><td>6h20 às 14h20</td><td>6h50, 7h40, 12h40, 13h40</td><td class="num">≈ 1h40</td></tr>
-<tr><td>2</td><td>14h40 às 22h40</td><td>18h20, 22h10</td><td class="num">≈ 0h50</td></tr>
+<tr><td>1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta, 12h40 ida</td><td class="num">≈ 1h15</td></tr>
+<tr><td>2</td><td>14h40 às 22h40</td><td>18h00 volta, 18h30 ida, 22h10 volta</td><td class="num">≈ 1h15</td></tr>
 </table>
 <p class="note">Dois motoristas cobrem os três períodos. A ociosidade é alta (cerca de 2h30 de direção em 16 horas de jornada), o que reforça compartilhar o motorista com outras demandas da CTR nos intervalos.</p>
 </div>
 <div class="box">
 <h3>Escala Linha B (Intercampi)</h3>
 <table>
-<tr><th>Turno</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
-<tr><td>1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta</td><td class="num">≈ 2h20</td></tr>
-<tr><td>2</td><td>12h30 às 20h30</td><td>12h50 ida, 18h00 volta</td><td class="num">≈ 2h20</td></tr>
+<tr><th>Turno</th><th>Veículo</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
+<tr><td>1</td><td>V1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta</td><td class="num">≈ 2h20</td></tr>
+<tr><td>2</td><td>V1</td><td>15h20 às 23h20</td><td>17h40 ida, 22h10 volta</td><td class="num">≈ 2h20</td></tr>
+<tr><td>3</td><td>V2</td><td>12h10 às 19h30</td><td>12h40 ida, 18h00 volta</td><td class="num">≈ 2h20</td></tr>
 </table>
-<p class="note">Dois motoristas. Um só não cobre 13 horas de janela dentro de 8 horas de jornada, mesmo com 5h30 de direção permitida.</p>
+<p class="note">Três motoristas para dois veículos. O turno 3 tem 7h20 de jornada e pode ser fechado com outra demanda da CTR. Se V2 sair do quadro, bastam dois motoristas.</p>
 </div>
 </div>
 
@@ -186,7 +193,7 @@ a{color:#1F4E78}
 <div>
 <label>Custo mensal por motorista (R$)</label><input id="f_sal" type="number" value="6300">
 <label>Motoristas Linha A</label><input id="f_ma" type="number" value="2" min="0">
-<label>Motoristas Linha B</label><input id="f_mb" type="number" value="2" min="0">
+<label>Motoristas Linha B</label><input id="f_mb" type="number" value="3" min="0">
 <label>Motoristas reserva (férias e faltas, compartilhados)</label><input id="f_res" type="number" value="1" min="0">
 </div>
 <div>
@@ -202,14 +209,14 @@ a{color:#1F4E78}
 <tr><td>Linha B</td><td class="num" id="f_b_n"></td><td class="num" id="f_b_folha"></td><td class="num" id="f_b_veic"></td><td class="num" id="f_b_aq"></td><td class="num" id="f_b_tot"></td><td class="num" id="f_b_fret"></td></tr>
 <tr class="total"><td>A + B com reserva</td><td class="num" id="f_ab_n"></td><td class="num" id="f_ab_folha"></td><td class="num" id="f_ab_veic"></td><td class="num" id="f_ab_aq"></td><td class="num" id="f_ab_tot"></td><td class="num" id="f_ab_fret"></td></tr>
 </table>
-<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um por linha (dois no cenário A + B), desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
+<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um para a Linha A e um ou dois para a Linha B, desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
 <p class="note">A folha da frota própria é custo fixo de 12 meses; o fretamento paga só meses letivos. Na comparação anual, multiplique a folha por 12 e o fretamento por 9. A frota própria só compensa se a UFG já tiver o veículo disponível e o motorista puder ser aproveitado em outras rotas nos intervalos.</p>
 </div>
 
 <h2>5. Pontos de decisão</h2>
 <ol>
 <li><b>Linha A duplica a Linha 555 da CMTC.</b> O trecho terminal → câmpus é serviço público concedido. Antes de contratar, cabe ofício da Reitoria à CMTC pedindo ampliação de horários da 555 com base na matrícula da FCT (cerca de 700 alunos em 2023). Custo zero para a UFG. A contratação própria deve ser apresentada como alternativa caso a CMTC não atenda.</li>
-<li><b>Linha A com 6 viagens usa cerca de 2.850 km/mês</b>, mesma franquia do contrato UFPI. Fornecedor tende a precificar como veículo dedicado, não por demanda. Se a Reitoria quiser reduzir, os horários de 7h40 e 13h40 são os primeiros a cortar (demanda incerta).</li>
+<li><b>Linha A com 6 viagens encadeadas usa cerca de 1.430 km/mês</b>, metade da franquia do contrato UFPI. Nesse volume o preço não é o km, é o veículo parado à disposição: o fornecedor cobra o piso mensal. Por isso o custo quase não cai se a Reitoria cortar horários; cai se o veículo puder atender outra demanda nos intervalos.</li>
 <li><b>Linha B (intercampi) atende docentes e técnicos</b>, não alunos. Fonte orçamentária e justificativa são diferentes da Linha A (assistência estudantil, PNAES, pode custear a A; a B é custeio administrativo).</li>
 <li><b>Contrato único com dois itens</b> (micro-ônibus por km, com franquia mínima) reduz custo de gestão e permite realocar o veículo entre linhas conforme a ocupação medida no piloto.</li>
 <li><b>Piloto de um semestre com contagem de embarques</b>, sem formulário de demanda, conforme o estudo anterior (modelo UnB e UNIRIO).</li>
@@ -238,6 +245,7 @@ function calc(p){
   var v=+document.getElementById(p+'_v').value, km=+document.getElementById(p+'_km').value, d=+document.getElementById(p+'_d').value;
   var t=document.getElementById(p+'_tipo').value.split('|'), lo=+t[0], hi=+t[1], piso=+t[2];
   if(p==='a'){var sn=document.getElementById('a_sent').value.split('|'); if(sn[1]==='0'){piso=0; lo=lo*1.15; hi=hi*1.15;}}
+  if(p==='b'){var nv=+document.getElementById('b_nv').value; piso=piso*nv; if(nv===2){lo=lo*1.1; hi=hi*1.1;}}
   var kmm=v*km*d, cmin=Math.max(kmm*lo,piso), cmax=Math.max(kmm*hi,piso);
   document.getElementById(p+'_kmmes').textContent=Math.round(kmm).toLocaleString('pt-BR');
   document.getElementById(p+'_min').textContent=brl(cmin);
@@ -256,8 +264,8 @@ function all(){
   var kmb=+document.getElementById('b_v').value*+document.getElementById('b_km').value*+document.getElementById('b_d').value;
   var preco=+document.getElementById('f_preco').value, vida=+document.getElementById('f_vida').value, aq=document.getElementById('f_usar').checked?0:preco/(vida*12);
   function row(id,n,folha,veic,aqm,fret){document.getElementById(id+'_n').textContent=n;document.getElementById(id+'_folha').textContent=brl(folha);document.getElementById(id+'_veic').textContent=brl(veic);document.getElementById(id+'_aq').textContent=brl(aqm);document.getElementById(id+'_tot').textContent=brl(folha+veic+aqm);document.getElementById(id+'_fret').textContent=brl(fret[0])+' a '+brl(fret[1]);}
-  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq,b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,2*aq,[a[0]+b[0],a[1]+b[1]]);
-  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl(2*preco)+' para as duas linhas)';
+  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq*+document.getElementById('b_nv').value,b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,(1+ +document.getElementById('b_nv').value)*aq,[a[0]+b[0],a[1]+b[1]]);
+  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl((1+ +document.getElementById('b_nv').value)*preco)+' para as duas linhas)';
 }
 document.getElementById('a_sent').addEventListener('change',function(){document.getElementById('a_km').value=this.value.split('|')[0];});
 document.querySelectorAll('input,select').forEach(function(e){e.addEventListener('input',all);e.addEventListener('change',all);});
