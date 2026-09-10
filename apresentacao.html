@@ -164,7 +164,7 @@ ul.fontes b{color:var(--ink);font-weight:600}
         <h3>Linha B <small>Samambaia → Colemar → Aparecida</small></h3>
         <div class="kv"><b class="num">36,5 km</b>por sentido, via BR-153 ou Av. Pedro Paulo de Souza</div>
         <div class="kv"><b class="num">52 min a 1h38</b>de ônibus, conforme o trânsito</div>
-        <div class="nota">Atende docentes e técnicos. Custeio administrativo, fora do PNAES. Com viagens até as 18h, um veículo fecha o quadro.</div>
+        <div class="nota">Atende docentes e técnicos. Custeio administrativo, fora do PNAES. Precisa de dois veículos para fechar as trocas de turno.</div>
       </div>
     </div>
   </div>
@@ -174,18 +174,18 @@ ul.fontes b{color:var(--ink);font-weight:600}
 <!-- 3. Um dia de operação -->
 <section class="slide" id="s3"><div class="stage">
   <div class="eyebrow"><i></i>Quadro de horários</div>
-  <h2>Um dia de operação: 4 viagens por linha, dois turnos de aula, última saída às 18h</h2>
+  <h2>Um dia de operação: 6 viagens por linha, três turnos de aula</h2>
   <div class="body" style="grid-template-rows:auto 1fr;gap:1.6cqw">
     <div id="tl-viagens"></div>
     <div class="cols-2" style="display:grid;gap:3cqw;align-items:start">
-      <div class="callout"><b>O intercampi das 6h50 chega entre 7h45 e 8h30.</b> Não atende aula às 7h30, só a partir das 8h30. A ida do vespertino sai às 13h30 e chega entre 14h25 e 15h10, depois da aula das 13h30. Isso precisa ser dito à Reitoria antes de contratar.</div>
+      <div class="callout"><b>O intercampi das 6h50 chega entre 7h45 e 8h30.</b> Não atende aula às 7h30, só a partir das 8h30. A última volta chega em Samambaia perto da meia-noite. Isso precisa ser dito à Reitoria antes de contratar.</div>
       <div class="notes">
         <div><b>Linha A</b> encadeia as viagens: sobe cheio antes da aula, desce cheio depois. Nenhum retorno vazio é pago.</div>
-        <div><b>Linha B</b> fecha com um veículo, V1 baseado em Samambaia. Cada perna leva de 40 min a 1h15, então a ida do vespertino só parte depois que a volta do matutino chega a Samambaia. Sem o noturno, não há troca de turno às 18h que exigisse segundo veículo.</div>
+        <div><b>Linha B</b> às 12h e às 18h precisa estar nas duas pontas ao mesmo tempo, e cada perna leva de 40 min a 1h15. Por isso, dois veículos: V1 em Samambaia com 4 viagens e V2 de apoio com 2.</div>
       </div>
     </div>
   </div>
-  <div class="foot"><span>Barras: da saída à chegada mais cedo (cheio) e à chegada mais tarde (claro). Faixas cinza: períodos de aula, 7h30 e 13h30.</span><b>3</b></div>
+  <div class="foot"><span>Barras: da saída à chegada mais cedo (cheio) e à chegada mais tarde (claro). Faixas cinza: períodos de aula, 7h30, 13h30 e 19h.</span><b>3</b></div>
 </div></section>
 
 <!-- 4. O piso -->
@@ -196,8 +196,8 @@ ul.fontes b{color:var(--ink);font-weight:600}
     <div id="ch-piso"></div>
     <div class="notes">
       <div><b>Piso é a franquia mínima do edital.</b> No contrato da UFPI são 3.000 km por mês a R$ 9,26: o órgão paga R$ 27,8 mil mesmo rodando 500 km. Sem franquia, o fornecedor não mantém veículo e motorista à disposição.</div>
-      <div><b>A Linha A fica dentro do piso.</b> 4 viagens de 10,8 km em 22 dias dão 950 km por mês: paga R$ 18 mil, e o custo quase não cai se a Reitoria cortar horários.</div>
-      <div><b>A Linha B já está na parte do km.</b> 3.212 km por mês com um veículo; o preço passa a ser rodagem, R$ 26 a 31 mil.</div>
+      <div><b>A Linha A fica dentro do piso.</b> 6 viagens de 10,8 km em 22 dias dão 1.426 km por mês: paga R$ 18 mil, e o custo quase não cai se a Reitoria cortar horários.</div>
+      <div><b>A Linha B já está na parte do km.</b> 2.409 km por veículo e por mês; o preço passa a ser rodagem, com 10% de acréscimo pela operação com dois veículos.</div>
       <div><b>A alternativa por demanda</b> (modelo UFC) não tem piso, mas cobra o km cerca de 15% mais caro e não garante veículo no horário.</div>
     </div>
   </div>
@@ -226,12 +226,12 @@ ul.fontes b{color:var(--ink);font-weight:600}
   <h2>Quanto custa contratar as duas linhas com micro-ônibus dedicado</h2>
   <div class="body" style="grid-template-rows:auto 1fr;align-content:space-between">
     <div class="kpis">
-      <div class="kpi" style="--c:var(--a)"><div class="k">Linha A · Terminal Araguaia</div><div class="v num">R$ 18<small>mil/mês</small></div><div class="u">950 km por mês, 1 veículo</div><div class="why">Valor é o piso da franquia: rodagem de 4 viagens por dia não alcança os R$ 18 mil.</div></div>
-      <div class="kpi" style="--c:var(--b)"><div class="k">Linha B · Intercampi</div><div class="v num">R$ 26 a 31<small>mil/mês</small></div><div class="u">3.212 km por mês, 1 veículo</div><div class="why">Aqui o km manda: 3.212 km a R$ 8,00 a 9,50 passam do piso de R$ 18 mil.</div></div>
-      <div class="kpi" style="--c:var(--ink)"><div class="k">A + B · contrato único</div><div class="v num">R$ 44 a 49<small>mil/mês</small></div><div class="u">2 itens, 2 veículos, micro-ônibus por km com franquia</div><div class="why">Permite realocar veículo entre linhas conforme a ocupação medida no piloto.</div></div>
+      <div class="kpi" style="--c:var(--a)"><div class="k">Linha A · Terminal Araguaia</div><div class="v num">R$ 18<small>mil/mês</small></div><div class="u">1.426 km por mês, 1 veículo</div><div class="why">Valor é o piso da franquia: rodagem de 6 viagens por dia não alcança os R$ 18 mil.</div></div>
+      <div class="kpi" style="--c:var(--b)"><div class="k">Linha B · Intercampi</div><div class="v num">R$ 42 a 50<small>mil/mês</small></div><div class="u">4.818 km por mês, 2 veículos</div><div class="why">Aqui o km manda. Com um veículo só (matutino e vespertino, 4 viagens) cai para cerca de R$ 26 a 31 mil.</div></div>
+      <div class="kpi" style="--c:var(--ink)"><div class="k">A + B · contrato único</div><div class="v num">R$ 60 a 68<small>mil/mês</small></div><div class="u">2 itens, 3 veículos, micro-ônibus por km com franquia</div><div class="why">Permite realocar veículo entre linhas conforme a ocupação medida no piloto.</div></div>
     </div>
     <div class="total">
-      <div><div class="k">Ano letivo, 9 meses, A + B</div><div class="v num">R$ 393 a 437<small> mil</small></div></div>
+      <div><div class="k">Ano letivo, 9 meses, A + B</div><div class="v num">R$ 544 a 615<small> mil</small></div></div>
       <p>Fretamento paga só meses letivos e não exige desembolso de investimento. Faixa inferior e superior refletem o preço por km de R$ 8,00 a 9,50.</p>
     </div>
   </div>
@@ -241,33 +241,33 @@ ul.fontes b{color:var(--ink);font-weight:600}
 <!-- 7. Frota própria: escalas -->
 <section class="slide" id="s7"><div class="stage">
   <div class="eyebrow"><i></i>Frota própria</div>
-  <h2>Com motorista da UFG, os dois turnos exigem 4 motoristas nas linhas e 1 de reserva</h2>
+  <h2>Com motorista da UFG, os três turnos exigem 5 motoristas nas linhas e 1 de reserva</h2>
   <div class="body" style="grid-template-rows:auto 1fr;gap:1.6cqw">
     <div id="tl-escalas"></div>
     <div class="cols-2" style="display:grid;gap:3cqw;align-items:start">
       <div class="notes">
         <div><b>Jornada de 8 horas</b> com intervalo, 40 horas semanais. Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas.</div>
-        <div><b>Ociosidade alta.</b> Na Linha A são cerca de 1h40 de direção em 16 horas de jornada, com os dois turnos sobrepostos no meio do dia. Só faz sentido se o motorista atender outras demandas da CTR nos intervalos.</div>
+        <div><b>Ociosidade alta.</b> Na Linha A são cerca de 2h30 de direção em 16 horas de jornada. Só faz sentido se o motorista atender outras demandas da CTR nos intervalos.</div>
       </div>
       <div class="kpis" style="grid-template-columns:1fr 1fr">
-        <div class="kpi" style="--c:var(--f)"><div class="k">Folha, 5 motoristas</div><div class="v num">R$ 31,5<small>mil/mês</small></div><div class="u">R$ 6.300 cada, salário e encargos, 12 meses por ano</div></div>
-        <div class="kpi" style="--c:var(--f)"><div class="k">Operação dos veículos</div><div class="v num">R$ 12,1<small>mil/mês</small></div><div class="u">R$ 2,90 por km: combustível, manutenção, pneus, seguro</div></div>
+        <div class="kpi" style="--c:var(--f)"><div class="k">Folha, 6 motoristas</div><div class="v num">R$ 37,8<small>mil/mês</small></div><div class="u">R$ 6.300 cada, salário e encargos, 12 meses por ano</div></div>
+        <div class="kpi" style="--c:var(--f)"><div class="k">Operação dos veículos</div><div class="v num">R$ 18,1<small>mil/mês</small></div><div class="u">R$ 2,90 por km: combustível, manutenção, pneus, seguro</div></div>
       </div>
     </div>
   </div>
-  <div class="foot"><span>Um veículo por linha, dois motoristas cada. Se a Reitoria incluir o noturno, a Linha B passa a exigir um segundo veículo e um terceiro motorista.</span><b>7</b></div>
+  <div class="foot"><span>Turno 3 da Linha B tem 7h20 e pode ser fechado com outra demanda. Se V2 sair do quadro, bastam 2 motoristas na Linha B.</span><b>7</b></div>
 </div></section>
 
 <!-- 8. Comparação anual -->
 <section class="slide" id="s8"><div class="stage">
   <div class="eyebrow"><i></i>Fretamento × frota própria</div>
-  <h2>No ano, a frota própria sai mais cara que o fretamento, mesmo com veículo da CTR</h2>
+  <h2>No ano, frota própria só empata com o fretamento se o veículo já existir e o motorista for aproveitado</h2>
   <div class="body cols-chart" style="grid-template-columns:1.6fr 1fr">
     <div id="ch-anual"></div>
     <div class="notes">
-      <div><b>Folha é custo de 12 meses;</b> fretamento paga 9. Só a folha de 5 motoristas (R$ 378 mil) quase iguala o fretamento das duas linhas.</div>
-      <div><b>Comprar veículo muda o jogo.</b> Sem veículo livre na CTR, a frota própria exige desembolso à vista de R$ 480 mil por veículo (R$ 960 mil para as duas linhas), em orçamento de investimento, com compra de 6 a 12 meses. O rateio no gráfico só distribui esse valor por 10 anos para comparar.</div>
-      <div><b>Por linha:</b> a Linha B empata com o fretamento (R$ 235 mil contra R$ 231 a 275 mil por ano); a Linha A fica mais cara (R$ 176 mil contra R$ 162 mil).</div>
+      <div><b>Folha é custo de 12 meses;</b> fretamento paga 9. É isso que aproxima os dois cenários no ano, mesmo com o mensal da frota própria menor.</div>
+      <div><b>Comprar veículo muda o jogo.</b> Sem veículo livre na CTR, a frota própria exige desembolso à vista de R$ 480 mil por veículo (R$ 1,44 milhão para as duas linhas), em orçamento de investimento, com compra de 6 a 12 meses. O rateio no gráfico só distribui esse valor por 10 anos para comparar.</div>
+      <div><b>Por linha:</b> a Linha B fica mais barata em frota própria (R$ 353 mil contra R$ 382 a 453 mil por ano); a Linha A fica mais cara (R$ 188 mil contra R$ 162 mil).</div>
     </div>
   </div>
   <div class="foot"><span>Valores em R$ mil por ano. Frota própria: folha × 12 e operação × 9; fretamento × 9 meses letivos. Veículos: micro-ônibus a R$ 480 mil, vida útil de 10 anos, sem juros.</span><b>8</b></div>
@@ -304,10 +304,10 @@ ul.fontes b{color:var(--ink);font-weight:600}
   <div class="body">
     <ol class="pontos">
       <li><div><b>A Linha A duplica a linha 555 da CMTC</b>O trecho é serviço público concedido. Cabe ofício da Reitoria pedindo ampliação de horários com base na matrícula da FCT. Custo zero para a UFG; a contratação própria é a alternativa se a CMTC não atender.</div></li>
-      <li><div><b>Na Linha A o preço é o veículo parado</b>Com 950 km por mês, um terço da franquia da UFPI, cortar horários quase não reduz custo. Reduz se o veículo puder atender outra demanda nos intervalos.</div></li>
+      <li><div><b>Na Linha A o preço é o veículo parado</b>Com 1.430 km por mês, metade da franquia da UFPI, cortar horários quase não reduz custo. Reduz se o veículo puder atender outra demanda nos intervalos.</div></li>
       <li><div><b>Linhas com fontes orçamentárias diferentes</b>PNAES (Decreto 7.234/2010 e Lei 14.914/2024) pode custear a Linha A, para estudantes com prioridade aos de baixa renda. Não pode custear a Linha B, que é custeio administrativo. Confirmar com PRAE e Procuradoria.</div></li>
       <li><div><b>Contrato único com dois itens</b>Micro-ônibus por km com franquia mínima: reduz custo de gestão e permite realocar veículo entre linhas conforme a ocupação medida.</div></li>
-      <li class="wide"><div><b>Piloto de um semestre com contagem de embarques</b>Sem formulário de demanda, conforme o estudo anterior (modelo UnB e UNIRIO). A contagem define se a Linha B precisa de um segundo veículo e se a Linha A precisa de ônibus maior.</div></li>
+      <li class="wide"><div><b>Piloto de um semestre com contagem de embarques</b>Sem formulário de demanda, conforme o estudo anterior (modelo UnB e UNIRIO). A contagem define se a Linha B fica com 1 ou 2 veículos e se a Linha A precisa de ônibus maior.</div></li>
     </ol>
   </div>
   <div class="foot"><span>Estudo anterior DLOG: viabilidade do transporte intercampi UFG, julho de 2026.</span><b>10</b></div>
@@ -319,8 +319,8 @@ ul.fontes b{color:var(--ink);font-weight:600}
   <h2>O que a DLOG pede à Reitoria</h2>
   <div class="body pedidos">
     <div class="pedido"><div class="n">1</div><h3>Oficiar a CMTC pela linha 555</h3><p>Pedir ampliação de horários compatível com o quadro de aulas da FCT. É a saída de custo zero para a Linha A e precisa ser tentada antes de contratar.</p><div class="tag">Sem custo · imediato</div></div>
-    <div class="pedido"><div class="n">2</div><h3>Confirmar o escopo da Linha B</h3><p>Matutino e vespertino com 1 veículo e última saída às 18h (R$ 26 a 31 mil por mês), com a ida do vespertino chegando entre 14h25 e 15h10. Indicar a fonte de custeio administrativo.</p><div class="tag">Decisão de escopo e orçamento</div></div>
-    <div class="pedido"><div class="n">3</div><h3>Autorizar o piloto de um semestre</h3><p>Contrato único de dois itens, micro-ônibus por km com franquia, R$ 44 a 49 mil por mês para A + B, com contagem de embarques. Em paralelo, a CTR informa disponibilidade real dos veículos para avaliar frota própria.</p><div class="tag">R$ 393 a 437 mil no ano letivo</div></div>
+    <div class="pedido"><div class="n">2</div><h3>Definir o escopo da Linha B</h3><p>Três turnos com 2 veículos (R$ 42 a 50 mil por mês) ou matutino e vespertino com 1 veículo (R$ 26 a 31 mil, vespertino chegando depois das 14h). Indicar a fonte de custeio administrativo.</p><div class="tag">Decisão de escopo e orçamento</div></div>
+    <div class="pedido"><div class="n">3</div><h3>Autorizar o piloto de um semestre</h3><p>Contrato único de dois itens, micro-ônibus por km com franquia, R$ 60 a 68 mil por mês para A + B, com contagem de embarques. Em paralelo, a CTR informa disponibilidade real dos veículos para avaliar frota própria.</p><div class="tag">R$ 544 a 615 mil no ano letivo</div></div>
   </div>
   <div class="foot"><span>Painel completo, com calculadora e referências: <a class="link" href="https://dlogproad.app/transporte-aparecida">dlogproad.app/transporte-aparecida</a></span><b>11</b></div>
 </div></section>
@@ -393,7 +393,7 @@ function fmt(n){return n.toLocaleString('pt-BR');}
 
 /* Linha do tempo genérica: horas decimais 6 a 24 */
 function timeline(id,rows,opts){
-  var W=1000,L=170,R=20,top=26,rh=opts.rowH||34,H=top+rows.length*rh+8,h0=6,h1=opts.h1||24,sx=(W-L-R)/(h1-h0);
+  var W=1000,L=170,R=20,top=26,rh=opts.rowH||34,H=top+rows.length*rh+8,h0=6,h1=24,sx=(W-L-R)/(h1-h0);
   function X(h){return L+(h-h0)*sx;}
   var b='';
   (opts.bands||[]).forEach(function(bd){b+=el('rect',{x:X(bd[0]),y:top-4,width:X(bd[1])-X(bd[0]),height:rows.length*rh+8,fill:SOFT});b+=el('text',{x:(X(bd[0])+X(bd[1]))/2,y:top-10,'text-anchor':'middle','font-size':11,'class':'axis'},bd[2]);});
@@ -414,16 +414,18 @@ function timeline(id,rows,opts){
 }
 function hm(h,m){return h+m/60;}
 timeline('tl-viagens',[
-  {label:'Linha A',sub:'Terminal ↔ Câmpus',color:A,bars:[[hm(6,50),hm(7,10),hm(7,21),'6h50'],[hm(12,0),hm(12,20),hm(12,30),'12h00 e 12h40'],[hm(12,40),hm(13,0),hm(13,10),''],[hm(18,0),hm(18,20),hm(18,35),'18h00']]},
-  {label:'Linha B · V1',sub:'base Samambaia',color:B,bars:[[hm(6,50),hm(7,45),hm(8,30),'6h50, chega 7h45 a 8h30'],[hm(12,0),hm(12,55),hm(13,30),'12h00'],[hm(13,30),hm(14,25),hm(15,10),'13h30, chega 14h25 a 15h10'],[hm(18,0),hm(19,0),hm(19,40),'18h00, chega até 19h40']]}
-],{bands:[[7.5,12,'matutino'],[13.5,18,'vespertino']],rowH:40,barH:16,h1:20});
+  {label:'Linha A',sub:'Terminal ↔ Câmpus',color:A,bars:[[hm(6,50),hm(7,10),hm(7,21),'6h50'],[hm(12,0),hm(12,20),hm(12,30),'12h00 e 12h40'],[hm(12,40),hm(13,0),hm(13,10),''],[hm(18,0),hm(18,20),hm(18,35),'18h00 e 18h30'],[hm(18,30),hm(18,50),hm(19,5),''],[hm(22,10),hm(22,30),hm(22,40),'22h10']]},
+  {label:'Linha B · V1',sub:'base Samambaia',color:B,bars:[[hm(6,50),hm(7,45),hm(8,30),'6h50, chega 7h45 a 8h30'],[hm(12,0),hm(12,55),hm(13,30),'12h00'],[hm(17,20),hm(18,15),hm(19,0),'17h20'],[hm(22,10),hm(23,0),hm(23,50),'22h10, chega até 23h50']]},
+  {label:'Linha B · V2',sub:'apoio',color:B,bars:[[hm(12,40),hm(13,35),hm(14,20),'12h40'],[hm(18,0),hm(19,0),hm(19,40),'18h00']]}
+],{bands:[[7.5,12,'matutino'],[13.5,18,'vespertino'],[19,22.17,'noturno']],rowH:40,barH:16});
 
 timeline('tl-escalas',[
-  {label:'Linha A · turno 1',sub:'≈ 50 min de direção',color:F,bars:[[hm(6,20),hm(14,20),hm(14,20),'6h20 às 14h20']]},
-  {label:'Linha A · turno 2',sub:'≈ 50 min de direção',color:F,bars:[[hm(10,40),hm(18,40),hm(18,40),'10h40 às 18h40']]},
+  {label:'Linha A · turno 1',sub:'≈ 1h15 de direção',color:F,bars:[[hm(6,20),hm(14,20),hm(14,20),'6h20 às 14h20']]},
+  {label:'Linha A · turno 2',sub:'≈ 1h15 de direção',color:F,bars:[[hm(14,40),hm(22,40),hm(22,40),'14h40 às 22h40']]},
   {label:'Linha B · V1 turno 1',sub:'≈ 2h20 de direção',color:F,bars:[[hm(6,20),hm(14,20),hm(14,20),'6h20 às 14h20']]},
-  {label:'Linha B · V1 turno 2',sub:'≈ 2h20 de direção',color:F,bars:[[hm(12,0),hm(20,0),hm(20,0),'12h às 20h']]}
-],{rowH:30,barH:14,labelIn:true,h1:20});
+  {label:'Linha B · V1 turno 2',sub:'≈ 2h20 de direção',color:F,bars:[[hm(16,0),hm(24,0),hm(24,0),'16h às 0h']]},
+  {label:'Linha B · V2 turno 3',sub:'≈ 2h20 de direção',color:F,bars:[[hm(12,10),hm(19,30),hm(19,30),'12h10 às 19h30']]}
+],{rowH:30,barH:14,labelIn:true});
 
 /* Gráfico do piso: custo mensal × km */
 (function(){
@@ -442,16 +444,16 @@ timeline('tl-escalas',[
   b+=el('text',{x:X(4300),y:Y(4300*hi)-10,'text-anchor':'middle','font-size':12,'class':'val'},'R$ 9,50/km');
   b+=el('text',{x:X(4500),y:Y(4500*lo)+18,'text-anchor':'middle','font-size':12,'class':'val'},'R$ 8,00/km');
   b+=el('text',{x:X(60),y:Y(piso)-9,'font-size':12,'class':'val'},'piso R$ 18 mil: veículo à disposição');
-  var ka=950,kb=3212;
+  var ka=1426,kb=2409;
   b+=el('line',{x1:X(ka),x2:X(ka),y1:Y(piso),y2:Y(0),stroke:A,'stroke-width':1,'stroke-dasharray':'3 3'});
   b+=el('circle',{cx:X(ka),cy:Y(piso),r:7,fill:A,stroke:WHITE,'stroke-width':2});
-  b+=el('text',{x:X(ka),y:Y(piso)+26,'text-anchor':'middle','font-size':12,'class':'val'},'Linha A · 950 km');
+  b+=el('text',{x:X(ka),y:Y(piso)+26,'text-anchor':'middle','font-size':12,'class':'val'},'Linha A · 1.426 km');
   b+=el('text',{x:X(ka),y:Y(piso)+40,'text-anchor':'middle','font-size':11,fill:INK2},'paga o piso: R$ 18 mil');
   b+=el('line',{x1:X(kb),x2:X(kb),y1:Y(kb*hi),y2:Y(0),stroke:B,'stroke-width':1,'stroke-dasharray':'3 3'});
   b+=el('circle',{cx:X(kb),cy:Y(kb*lo),r:7,fill:B,stroke:WHITE,'stroke-width':2});
   b+=el('circle',{cx:X(kb),cy:Y(kb*hi),r:7,fill:B,stroke:WHITE,'stroke-width':2});
-  b+=el('text',{x:X(kb)-12,y:Y(kb*hi)-12,'text-anchor':'end','font-size':12,'class':'val'},'Linha B · 3.212 km, um veículo');
-  b+=el('text',{x:X(kb)-12,y:Y(kb*hi)+2,'text-anchor':'end','font-size':11,fill:INK2},'R$ 26 a 31 mil por mês');
+  b+=el('text',{x:X(kb)+12,y:Y(kb*hi)-12,'font-size':12,'class':'val'},'Linha B · 2.409 km por veículo');
+  b+=el('text',{x:X(kb)+12,y:Y(kb*hi)+2,'font-size':11,fill:INK2},'R$ 19 a 23 mil cada, antes do acréscimo de 10%');
   document.getElementById('ch-piso').innerHTML=svg(W,H,b);
 })();
 
@@ -488,11 +490,11 @@ timeline('tl-escalas',[
 
 /* Comparação anual, R$ mil */
 (function(){
-  var W=680,L=250,R=110,T=34,rh=64,xmax=600,bh=22;
+  var W=680,L=250,R=110,T=34,rh=64,xmax=800,bh=22;
   var rows=[
-    {l:'Fretamento A + B',sub:'micro-ônibus por km, 9 meses',segs:[[0,393,B,1]],range:[393,437],val:'393 a 437'},
-    {l:'Frota própria',sub:'veículos da CTR já disponíveis',segs:[[0,378,F,1,'folha 378'],[378,487,F,.45,'operação 109']],val:'487'},
-    {l:'Frota própria comprando',sub:'2 micro-ônibus, rateio em 10 anos',segs:[[0,378,F,1,'folha 378'],[378,487,F,.45,'operação 109'],[487,583,DIM,1,'rateio 96']],val:'583',extra:'+ R$ 960 mil à vista'}
+    {l:'Fretamento A + B',sub:'micro-ônibus por km, 9 meses',segs:[[0,544,B,1]],range:[544,615],val:'544 a 615'},
+    {l:'Frota própria',sub:'veículos da CTR já disponíveis',segs:[[0,454,F,1,'folha 454'],[454,617,F,.45,'operação 163']],val:'617'},
+    {l:'Frota própria comprando',sub:'3 micro-ônibus, rateio em 10 anos',segs:[[0,454,F,1,'folha 454'],[454,617,F,.45,'operação 163'],[617,761,DIM,1,'rateio 144']],val:'761',extra:'+ R$ 1,44 mi à vista'}
   ];
   var H=T+rows.length*rh+30,b='';
   function X(v){return L+v/xmax*(W-L-R);}
