@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transporte Câmpus Aparecida</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --bg:#F5F7FA;--stage:#FFFFFF;--ink:#172A45;--ink2:#56637A;--ink3:#8592A6;
+  --rule:#D9DEE6;--soft:#EDF0F4;--dim:#C3CAD4;
+  --a:#C8471B;--b:#1F5FA8;--f:#1A9060;
+  --a-wash:rgba(200,71,27,.13);--b-wash:rgba(31,95,168,.13);--f-wash:rgba(26,144,96,.16);
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.4;-webkit-font-smoothing:antialiased}
+.slide{height:100vh;height:100dvh;scroll-snap-align:start;display:grid;place-items:center;padding:1.2vmin}
+.stage{position:relative;width:min(100%,calc((100vh - 2.4vmin) * 16 / 9));aspect-ratio:16/9;background:var(--stage);container-type:size;
+  box-shadow:0 1px 0 var(--rule),0 12px 40px -20px rgba(23,42,69,.25);padding:5cqw 6cqw 4.2cqw;display:flex;flex-direction:column;gap:2.2cqw;overflow:hidden}
+.eyebrow{font-family:var(--display);font-weight:600;font-size:1.25cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);display:flex;gap:1.2cqw;align-items:center}
+.eyebrow i{display:inline-block;width:2.4cqw;height:.28cqw;background:var(--ink);border-radius:1px}
+h1,h2{font-family:var(--display);font-weight:700;line-height:1;margin:0;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:7.2cqw}
+h2{font-size:4.6cqw;max-width:78%}
+h2 small{display:block;font-family:var(--body);font-weight:400;font-size:1.65cqw;color:var(--ink2);margin-top:1cqw;letter-spacing:0;line-height:1.35;max-width:62ch}
+p{margin:0;font-size:1.65cqw;max-width:62ch}
+.body{flex:1;min-height:0;display:grid;gap:3cqw;grid-template-rows:minmax(0,1fr)}
+.body>*{min-height:0}
+#mapa{height:100%}
+#mapa svg{width:100%;height:100%}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-map{grid-template-columns:34cqw 1fr}
+.cols-chart{grid-template-columns:1.5fr 1fr}
+.foot{display:flex;justify-content:space-between;align-items:baseline;font-size:1.1cqw;color:var(--ink3);border-top:1px solid var(--rule);padding-top:1cqw;font-variant-numeric:tabular-nums}
+.foot b{font-weight:600;color:var(--ink2)}
+.num{font-variant-numeric:tabular-nums}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--body);fill:var(--ink2)}
+svg .lbl{font-weight:600;fill:var(--ink)}
+svg .val{font-weight:600;fill:var(--ink);font-variant-numeric:tabular-nums}
+svg .axis{fill:var(--ink3)}
+svg .grid{stroke:var(--rule);stroke-width:1}
+svg .disp{font-family:var(--display);font-weight:700;fill:var(--ink)}
+
+/* capa */
+.cover{justify-content:space-between}
+.cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cover .org{font-family:var(--display);font-weight:600;font-size:1.5cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);line-height:1.3;text-align:right}
+.cover .lede{font-size:2cqw;color:var(--ink2);max-width:46ch;margin-top:1.4cqw}
+.cover .hint{font-size:1.15cqw;color:var(--ink3);display:flex;gap:2cqw}
+.cover .hint kbd{font-family:var(--body);border:1px solid var(--rule);border-radius:3px;padding:0 .5em;color:var(--ink2)}
+.legend{display:flex;gap:2.4cqw;font-size:1.3cqw;color:var(--ink2);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:.6cqw}
+.legend i{display:inline-block;width:2cqw;height:.45cqw;border-radius:2px}
+.legend i.dot{width:1cqw;height:1cqw;border-radius:50%}
+
+/* fichas de linha */
+.fichas{display:grid;grid-template-rows:1fr 1fr;gap:1.6cqw;min-height:0}
+.ficha{border-left:.55cqw solid var(--c);padding:.4cqw 0 .4cqw 2cqw;display:grid;grid-template-columns:1fr 1fr;gap:.6cqw 2.4cqw;align-content:start}
+.ficha h3{grid-column:1/-1;font-family:var(--display);font-weight:700;font-size:2.3cqw;margin:0;line-height:1}
+.ficha h3 small{font-family:var(--body);font-weight:400;font-size:1.3cqw;color:var(--ink2);margin-left:1cqw}
+.ficha .kv{font-size:1.3cqw;color:var(--ink2)}
+.ficha .kv b{display:block;font-family:var(--display);font-weight:600;font-size:2.2cqw;color:var(--ink);line-height:1;margin-bottom:.2cqw;font-variant-numeric:tabular-nums}
+.ficha .nota{grid-column:1/-1;font-size:1.25cqw;color:var(--ink2)}
+
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4cqw;align-content:start}
+.kpi{border-top:.35cqw solid var(--c,var(--ink));padding-top:1.2cqw}
+.kpi .k{font-family:var(--display);font-weight:600;font-size:1.35cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.kpi .v{font-family:var(--display);font-weight:700;font-size:5.2cqw;line-height:1;margin:.6cqw 0 .3cqw;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi .v small{font-size:2.2cqw;font-weight:600;color:var(--ink2);margin-left:.3cqw}
+.kpi .u{font-size:1.35cqw;color:var(--ink2)}
+.kpi .why{font-size:1.35cqw;color:var(--ink2);margin-top:1cqw;max-width:30ch}
+.total{display:grid;grid-template-columns:1fr auto;align-items:end;gap:3cqw;border-top:1px solid var(--rule);padding-top:1.6cqw}
+.total .v{font-family:var(--display);font-weight:700;font-size:5.6cqw;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.total .v small{font-size:2.2cqw;color:var(--ink2);font-weight:600}
+.total .k{font-family:var(--display);font-weight:600;font-size:1.35cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin-bottom:.4cqw}
+.total p{font-size:1.4cqw;color:var(--ink2);max-width:40ch;text-align:right}
+
+/* callouts e listas */
+.callout{border-left:.45cqw solid var(--a);background:var(--a-wash);padding:1.2cqw 1.6cqw;font-size:1.5cqw;max-width:none}
+.callout b{font-weight:600}
+.notes{display:grid;gap:1.3cqw;align-content:start;font-size:1.45cqw;color:var(--ink2)}
+.notes b{color:var(--ink);font-weight:600}
+.notes div{padding-left:1.4cqw;border-left:2px solid var(--rule)}
+ol.pontos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1.6cqw 4cqw;counter-reset:p;font-size:1.45cqw;color:var(--ink2);align-content:start}
+ol.pontos li{counter-increment:p;display:grid;grid-template-columns:3.4cqw 1fr;gap:1.2cqw;align-items:start}
+ol.pontos li::before{content:counter(p);font-family:var(--display);font-weight:700;font-size:3.4cqw;line-height:.9;color:var(--dim)}
+ol.pontos b{display:block;color:var(--ink);font-weight:600;font-size:1.65cqw;margin-bottom:.3cqw}
+ol.pontos li.wide{grid-column:1/-1}
+.pedidos{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4cqw;align-content:start}
+.pedido{background:var(--soft);padding:2cqw;display:flex;flex-direction:column;gap:1cqw;min-height:0}
+.pedido .n{font-family:var(--display);font-weight:700;font-size:4cqw;line-height:1;color:var(--ink)}
+.pedido h3{font-family:var(--display);font-weight:700;font-size:2.4cqw;margin:0;line-height:1.05}
+.pedido p{font-size:1.4cqw;color:var(--ink2)}
+.pedido .tag{margin-top:auto;font-family:var(--display);font-weight:600;font-size:1.2cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.link{color:var(--b);text-decoration:none;border-bottom:1px solid currentColor}
+ul.fontes{margin:0;padding:0;list-style:none;display:grid;gap:1cqw;font-size:1.4cqw;color:var(--ink2);max-width:none;columns:1}
+ul.fontes b{color:var(--ink);font-weight:600}
+
+/* frota */
+.frota{display:grid;grid-template-columns:repeat(3,auto);gap:2.4cqw 4cqw;align-content:start;justify-content:start}
+.grupo h3{font-family:var(--display);font-weight:600;font-size:1.35cqw;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin:0 0 1cqw}
+.veics{display:flex;gap:1.2cqw;flex-wrap:wrap}
+.veic{width:9cqw;display:flex;flex-direction:column;gap:.5cqw;font-size:1.15cqw;color:var(--ink2);line-height:1.25}
+.veic svg{width:100%;height:auto}
+.veic svg{fill:var(--dim)}
+.veic.cA svg{fill:var(--a)}.veic.cB svg{fill:var(--b)}
+.veic b{color:var(--ink);font-weight:600}
+.veic.cA b{color:var(--a)}.veic.cB b{color:var(--b)}
+
+/* navegação */
+.nav{position:fixed;right:1.6vmin;bottom:1.4vmin;display:flex;gap:.6vmin;align-items:center;font-family:var(--display);font-size:1.6vmin;color:var(--ink2);z-index:5;font-variant-numeric:tabular-nums}
+.nav button{font:inherit;background:var(--stage);color:var(--ink);border:1px solid var(--rule);width:3.6vmin;height:3.6vmin;cursor:pointer;border-radius:3px}
+.nav button:hover{border-color:var(--ink2)}
+.nav button:focus-visible,.link:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+.nav span{min-width:5.5vmin;text-align:center}
+
+@page{size:338.67mm 190.5mm;margin:0}
+@media print{
+  html{scroll-snap-type:none}
+  body{background:#fff}
+  .slide{height:190.5mm;width:338.67mm;padding:0;page-break-after:always;break-after:page;display:block}
+  .stage{width:338.67mm;box-shadow:none}
+  .nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. Capa -->
+<section class="slide" id="s1"><div class="stage cover">
+  <div class="top">
+    <div class="eyebrow"><i></i>Estudo preliminar de custo</div>
+    <div class="org">DLOG · PROAD · UFG<br><span style="font-weight:500;letter-spacing:.04em;text-transform:none">setembro de 2026</span></div>
+  </div>
+  <div>
+    <h1>Transporte para o<br>Câmpus Aparecida</h1>
+    <p class="lede">Duas linhas em estudo: Terminal Araguaia → Câmpus, para estudantes da FCT, e o intercampi Samambaia → Colemar → Aparecida, para docentes e técnicos.</p>
+  </div>
+  <div id="diagrama"></div>
+  <div class="hint"><span><kbd>→</kbd> avança</span><span><kbd>←</kbd> volta</span><span><kbd>F</kbd> tela cheia</span><span>Painel completo com calculadora: <a class="link" href="https://dlogproad.app/transporte-aparecida">dlogproad.app/transporte-aparecida</a></span></div>
+</div></section>
+
+<!-- 2. Duas linhas -->
+<section class="slide" id="s2"><div class="stage">
+  <div class="eyebrow"><i></i>Rotas</div>
+  <h2>Duas linhas, dois públicos, dois orçamentos</h2>
+  <div class="body cols-map">
+    <div id="mapa"></div>
+    <div class="fichas">
+      <div class="ficha" style="--c:var(--a)">
+        <h3>Linha A <small>Terminal Araguaia → Câmpus Aparecida</small></h3>
+        <div class="kv"><b class="num">10,8 km</b>por viagem, pela Av. Santana</div>
+        <div class="kv"><b class="num">18 a 34 min</b>de ônibus, conforme o horário</div>
+        <div class="nota">Atende estudantes da FCT (cerca de 700 matriculados em 2023). Duplica a linha 555 da CMTC, serviço público já concedido. Pode ser custeada com PNAES.</div>
+      </div>
+      <div class="ficha" style="--c:var(--b)">
+        <h3>Linha B <small>Samambaia → Colemar → Aparecida</small></h3>
+        <div class="kv"><b class="num">36,5 km</b>por sentido, via BR-153 ou Av. Pedro Paulo de Souza</div>
+        <div class="kv"><b class="num">52 min a 1h38</b>de ônibus, conforme o trânsito</div>
+        <div class="nota">Atende docentes e técnicos. Custeio administrativo, fora do PNAES. Precisa de dois veículos para fechar as trocas de turno.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Distâncias e tempos: Google Maps em 03/09/2026, trânsito típico de quinta; ônibus estimado com fator 1,3 sobre o carro.</span><b>2</b></div>
+</div></section>
+
+<!-- 3. Um dia de operação -->
+<section class="slide" id="s3"><div class="stage">
+  <div class="eyebrow"><i></i>Quadro de horários</div>
+  <h2>Um dia de operação: 6 viagens por linha, três turnos de aula</h2>
+  <div class="body" style="grid-template-rows:auto 1fr;gap:1.6cqw">
+    <div id="tl-viagens"></div>
+    <div class="cols-2" style="display:grid;gap:3cqw;align-items:start">
+      <div class="callout"><b>O intercampi das 6h50 chega entre 7h45 e 8h30.</b> Não atende aula às 7h30, só a partir das 8h30. A última volta chega em Samambaia perto da meia-noite. Isso precisa ser dito à Reitoria antes de contratar.</div>
+      <div class="notes">
+        <div><b>Linha A</b> encadeia as viagens: sobe cheio antes da aula, desce cheio depois. Nenhum retorno vazio é pago.</div>
+        <div><b>Linha B</b> às 12h e às 18h precisa estar nas duas pontas ao mesmo tempo, e cada perna leva de 40 min a 1h15. Por isso, dois veículos: V1 em Samambaia com 4 viagens e V2 de apoio com 2.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Barras: da saída à chegada mais cedo (cheio) e à chegada mais tarde (claro). Faixas cinza: períodos de aula, 7h30, 13h30 e 19h.</span><b>3</b></div>
+</div></section>
+
+<!-- 4. O piso -->
+<section class="slide" id="s4"><div class="stage">
+  <div class="eyebrow"><i></i>Como o fretamento cobra</div>
+  <h2>Com veículo dedicado, abaixo de ~2.000 km por mês o preço não é o km, é o veículo parado<small>Micro-ônibus 28 lugares, faixa adotada para Goiânia: R$ 8,00 a 9,50 por km, com piso mensal de R$ 18 mil (franquia).</small></h2>
+  <div class="body cols-chart">
+    <div id="ch-piso"></div>
+    <div class="notes">
+      <div><b>Piso é a franquia mínima do edital.</b> No contrato da UFPI são 3.000 km por mês a R$ 9,26: o órgão paga R$ 27,8 mil mesmo rodando 500 km. Sem franquia, o fornecedor não mantém veículo e motorista à disposição.</div>
+      <div><b>A Linha A fica dentro do piso.</b> 6 viagens de 10,8 km em 22 dias dão 1.426 km por mês: paga R$ 18 mil, e o custo quase não cai se a Reitoria cortar horários.</div>
+      <div><b>A Linha B já está na parte do km.</b> 2.409 km por veículo e por mês; o preço passa a ser rodagem, com 10% de acréscimo pela operação com dois veículos.</div>
+      <div><b>A alternativa por demanda</b> (modelo UFC) não tem piso, mas cobra o km cerca de 15% mais caro e não garante veículo no horário.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Faixa sombreada: custo mensal entre R$ 8,00 e 9,50 por km, com o piso de R$ 18 mil. Fonte dos preços: PNCP, contratos 2025 e 2026.</span><b>4</b></div>
+</div></section>
+
+<!-- 5. Referências PNCP -->
+<section class="slide" id="s5"><div class="stage">
+  <div class="eyebrow"><i></i>Referências de preço</div>
+  <h2>Preço por km em contratos vigentes no PNCP e a faixa adotada para Goiânia</h2>
+  <div class="body cols-chart" style="grid-template-columns:1.7fr 1fr">
+    <div id="ch-precos"></div>
+    <div class="notes">
+      <div><b>UFPI (2025)</b>: ônibus com motorista e combustível, franquia de 3.000 km por mês. É a referência mais próxima de uma linha dedicada.</div>
+      <div><b>UFC (2026)</b>: km rodado por porte de veículo, sem dedicação exclusiva. Mostra a escala: van R$ 5 a 6, micro R$ 7 a 10, rodoviário até R$ 13,75.</div>
+      <div><b>Contratos por viagem ou por passageiro</b> (IFPE, UFRJ, UFPel) servem como ordem de grandeza: R$ 21 mil por unidade e mês no circular do IFPE; R$ 123 mil por mês numa operação madura de vários veículos na UFRJ.</div>
+      <div>Todos os valores são referenciais e devem ser confirmados em pesquisa de preços formal.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Cinza: contratos consultados no PNCP em 02 e 03/09/2026. Azul: faixa adotada neste estudo, veículo e motorista dedicados.</span><b>5</b></div>
+</div></section>
+
+<!-- 6. Custo do fretamento -->
+<section class="slide" id="s6"><div class="stage">
+  <div class="eyebrow"><i></i>Fretamento</div>
+  <h2>Quanto custa contratar as duas linhas com micro-ônibus dedicado</h2>
+  <div class="body" style="grid-template-rows:auto 1fr;align-content:space-between">
+    <div class="kpis">
+      <div class="kpi" style="--c:var(--a)"><div class="k">Linha A · Terminal Araguaia</div><div class="v num">R$ 18<small>mil/mês</small></div><div class="u">1.426 km por mês, 1 veículo</div><div class="why">Valor é o piso da franquia: rodagem de 6 viagens por dia não alcança os R$ 18 mil.</div></div>
+      <div class="kpi" style="--c:var(--b)"><div class="k">Linha B · Intercampi</div><div class="v num">R$ 42 a 50<small>mil/mês</small></div><div class="u">4.818 km por mês, 2 veículos</div><div class="why">Aqui o km manda. Com um veículo só (matutino e vespertino, 4 viagens) cai para cerca de R$ 26 a 31 mil.</div></div>
+      <div class="kpi" style="--c:var(--ink)"><div class="k">A + B · contrato único</div><div class="v num">R$ 60 a 68<small>mil/mês</small></div><div class="u">2 itens, 3 veículos, micro-ônibus por km com franquia</div><div class="why">Permite realocar veículo entre linhas conforme a ocupação medida no piloto.</div></div>
+    </div>
+    <div class="total">
+      <div><div class="k">Ano letivo, 9 meses, A + B</div><div class="v num">R$ 544 a 615<small> mil</small></div></div>
+      <p>Fretamento paga só meses letivos e não exige desembolso de investimento. Faixa inferior e superior refletem o preço por km de R$ 8,00 a 9,50.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Parâmetros: 22 dias letivos por mês, micro-ônibus 28 lugares, piso de R$ 18 mil por veículo. Calculadora com outros cenários no painel completo.</span><b>6</b></div>
+</div></section>
+
+<!-- 7. Frota própria: escalas -->
+<section class="slide" id="s7"><div class="stage">
+  <div class="eyebrow"><i></i>Frota própria</div>
+  <h2>Com motorista da UFG, os três turnos exigem 5 motoristas nas linhas e 1 de reserva</h2>
+  <div class="body" style="grid-template-rows:auto 1fr;gap:1.6cqw">
+    <div id="tl-escalas"></div>
+    <div class="cols-2" style="display:grid;gap:3cqw;align-items:start">
+      <div class="notes">
+        <div><b>Jornada de 8 horas</b> com intervalo, 40 horas semanais. Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas.</div>
+        <div><b>Ociosidade alta.</b> Na Linha A são cerca de 2h30 de direção em 16 horas de jornada. Só faz sentido se o motorista atender outras demandas da CTR nos intervalos.</div>
+      </div>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi" style="--c:var(--f)"><div class="k">Folha, 6 motoristas</div><div class="v num">R$ 37,8<small>mil/mês</small></div><div class="u">R$ 6.300 cada, salário e encargos, 12 meses por ano</div></div>
+        <div class="kpi" style="--c:var(--f)"><div class="k">Operação dos veículos</div><div class="v num">R$ 18,1<small>mil/mês</small></div><div class="u">R$ 2,90 por km: combustível, manutenção, pneus, seguro</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Turno 3 da Linha B tem 7h20 e pode ser fechado com outra demanda. Se V2 sair do quadro, bastam 2 motoristas na Linha B.</span><b>7</b></div>
+</div></section>
+
+<!-- 8. Comparação anual -->
+<section class="slide" id="s8"><div class="stage">
+  <div class="eyebrow"><i></i>Fretamento × frota própria</div>
+  <h2>No ano, frota própria só empata com o fretamento se o veículo já existir e o motorista for aproveitado</h2>
+  <div class="body cols-chart" style="grid-template-columns:1.6fr 1fr">
+    <div id="ch-anual"></div>
+    <div class="notes">
+      <div><b>Folha é custo de 12 meses;</b> fretamento paga 9. É isso que aproxima os dois cenários no ano, mesmo com o mensal da frota própria menor.</div>
+      <div><b>Comprar veículo muda o jogo.</b> Sem veículo livre na CTR, a frota própria exige desembolso à vista de R$ 480 mil por veículo (R$ 1,44 milhão para as duas linhas), em orçamento de investimento, com compra de 6 a 12 meses. O rateio no gráfico só distribui esse valor por 10 anos para comparar.</div>
+      <div><b>Por linha:</b> a Linha B fica mais barata em frota própria (R$ 353 mil contra R$ 382 a 453 mil por ano); a Linha A fica mais cara (R$ 188 mil contra R$ 162 mil).</div>
+    </div>
+  </div>
+  <div class="foot"><span>Valores em R$ mil por ano. Frota própria: folha × 12 e operação × 9; fretamento × 9 meses letivos. Veículos: micro-ônibus a R$ 480 mil, vida útil de 10 anos, sem juros.</span><b>8</b></div>
+</div></section>
+
+<!-- 9. Frota da CTR -->
+<section class="slide" id="s9"><div class="stage">
+  <div class="eyebrow"><i></i>Frota atual da CTR</div>
+  <h2>A UFG já tem veículo compatível para as duas linhas. A dúvida é se estão livres nos horários<small>Levantamento de 30/04/2026 (Fernando). Destacados: candidatos naturais a cada linha.</small></h2>
+  <div class="body" style="grid-template-rows:1fr auto">
+    <div class="frota">
+      <div class="grupo"><h3>Ônibus rodoviário · 5</h3><div class="veics">
+        <div class="veic"><svg viewBox="0 0 96 40"><use href="#bus"/></svg><b>3 com banheiro</b>ar-condicionado; viagens de campo e longas distâncias</div>
+        <div class="veic cB"><svg viewBox="0 0 96 40"><use href="#bus"/></svg><b>1 sem banheiro</b>ar-condicionado; pode servir à Linha B</div>
+        <div class="veic"><svg viewBox="0 0 96 40"><use href="#bus"/></svg><b>1 para via sem pavimento</b>aulas de campo</div>
+      </div></div>
+      <div class="grupo"><h3>Ônibus urbano · 2</h3><div class="veics">
+        <div class="veic cB"><svg viewBox="0 0 96 40"><use href="#bus"/></svg><b>2 padrão urbano</b>candidato natural à Linha B; à Linha A se a demanda passar de 28 por viagem</div>
+      </div></div>
+      <div class="grupo"><h3>Micro-ônibus · 3</h3><div class="veics">
+        <div class="veic"><svg viewBox="0 0 96 40"><use href="#micro"/></svg><b>2 para via sem pavimento</b>aulas de campo</div>
+        <div class="veic cA"><svg viewBox="0 0 96 40"><use href="#micro"/></svg><b>1 para via pavimentada</b>candidato natural à Linha A, 10,8 km urbanos</div>
+      </div></div>
+    </div>
+    <div class="callout" style="border-color:var(--ink);background:var(--soft)"><b>Antes de decidir, a CTR precisa informar</b> idade e quilometragem dos veículos candidatos, histórico de manutenção de 12 meses e a agenda atual de uso. Um veículo que roda 2 dias por semana em aula de campo não sustenta uma linha diária.</div>
+  </div>
+  <div class="foot"><span>Compra só se justifica se os candidatos estiverem comprometidos com aulas de campo nos horários das linhas ou com manutenção acima do aceitável.</span><b>9</b></div>
+</div></section>
+
+<!-- 10. Pontos de decisão -->
+<section class="slide" id="s10"><div class="stage">
+  <div class="eyebrow"><i></i>Pontos de decisão</div>
+  <h2>Cinco decisões antes de qualquer contratação</h2>
+  <div class="body">
+    <ol class="pontos">
+      <li><div><b>A Linha A duplica a linha 555 da CMTC</b>O trecho é serviço público concedido. Cabe ofício da Reitoria pedindo ampliação de horários com base na matrícula da FCT. Custo zero para a UFG; a contratação própria é a alternativa se a CMTC não atender.</div></li>
+      <li><div><b>Na Linha A o preço é o veículo parado</b>Com 1.430 km por mês, metade da franquia da UFPI, cortar horários quase não reduz custo. Reduz se o veículo puder atender outra demanda nos intervalos.</div></li>
+      <li><div><b>Linhas com fontes orçamentárias diferentes</b>PNAES (Decreto 7.234/2010 e Lei 14.914/2024) pode custear a Linha A, para estudantes com prioridade aos de baixa renda. Não pode custear a Linha B, que é custeio administrativo. Confirmar com PRAE e Procuradoria.</div></li>
+      <li><div><b>Contrato único com dois itens</b>Micro-ônibus por km com franquia mínima: reduz custo de gestão e permite realocar veículo entre linhas conforme a ocupação medida.</div></li>
+      <li class="wide"><div><b>Piloto de um semestre com contagem de embarques</b>Sem formulário de demanda, conforme o estudo anterior (modelo UnB e UNIRIO). A contagem define se a Linha B fica com 1 ou 2 veículos e se a Linha A precisa de ônibus maior.</div></li>
+    </ol>
+  </div>
+  <div class="foot"><span>Estudo anterior DLOG: viabilidade do transporte intercampi UFG, julho de 2026.</span><b>10</b></div>
+</div></section>
+
+<!-- 11. O que pedimos -->
+<section class="slide" id="s11"><div class="stage">
+  <div class="eyebrow"><i></i>Encaminhamento</div>
+  <h2>O que a DLOG pede à Reitoria</h2>
+  <div class="body pedidos">
+    <div class="pedido"><div class="n">1</div><h3>Oficiar a CMTC pela linha 555</h3><p>Pedir ampliação de horários compatível com o quadro de aulas da FCT. É a saída de custo zero para a Linha A e precisa ser tentada antes de contratar.</p><div class="tag">Sem custo · imediato</div></div>
+    <div class="pedido"><div class="n">2</div><h3>Definir o escopo da Linha B</h3><p>Três turnos com 2 veículos (R$ 42 a 50 mil por mês) ou matutino e vespertino com 1 veículo (R$ 26 a 31 mil, vespertino chegando depois das 14h). Indicar a fonte de custeio administrativo.</p><div class="tag">Decisão de escopo e orçamento</div></div>
+    <div class="pedido"><div class="n">3</div><h3>Autorizar o piloto de um semestre</h3><p>Contrato único de dois itens, micro-ônibus por km com franquia, R$ 60 a 68 mil por mês para A + B, com contagem de embarques. Em paralelo, a CTR informa disponibilidade real dos veículos para avaliar frota própria.</p><div class="tag">R$ 544 a 615 mil no ano letivo</div></div>
+  </div>
+  <div class="foot"><span>Painel completo, com calculadora e referências: <a class="link" href="https://dlogproad.app/transporte-aparecida">dlogproad.app/transporte-aparecida</a></span><b>11</b></div>
+</div></section>
+
+<!-- 12. Fontes -->
+<section class="slide" id="s12"><div class="stage">
+  <div class="eyebrow"><i></i>Fontes</div>
+  <h2>De onde vêm os números</h2>
+  <div class="body">
+    <ul class="fontes">
+      <li><b>Preços por km:</b> PNCP, contratos UFPI 04 e 18/2025 (Pregão 90020/2024), UFC 17 e 24/2026 (Pregão 210/2025), UFRJ 07/2026, IFPE 01/2026, UFPel 58/2025 e Tucumã/PA 2024. Consulta em 02 e 03/09/2026.</li>
+      <li><b>Distâncias e tempos:</b> Google Maps, trânsito típico de quinta-feira, consulta em 03/09/2026 com horário de partida definido. Ônibus estimado com fator 1,3 sobre o carro. Traçado das rotas: OSRM sobre OpenStreetMap.</li>
+      <li><b>Linha 555 Terminal Araguaia / UFG Aparecida:</b> FCT/UFG (set. 2023) e Portal 6 (29/09/2023).</li>
+      <li><b>Frota da CTR:</b> levantamento de 30/04/2026.</li>
+      <li><b>Motoristas:</b> R$ 6.300 por mês com encargos; jornada conforme Lei 13.103/2015.</li>
+      <li><b>Aquisição de veículos:</b> valores de mercado 2026, a confirmar em pesquisa de preços: van R$ 350 a 400 mil, micro-ônibus R$ 450 a 550 mil, ônibus urbano R$ 750 a 950 mil.</li>
+      <li><b>PNAES:</b> Decreto 7.234/2010 e Lei 14.914/2024.</li>
+      <li><b>Estudo anterior:</b> DLOG, Estudo de viabilidade de transporte intercampi UFG, julho de 2026.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>DLOG/PROAD/UFG · Valores referenciais para decisão preliminar.</span><b>12</b></div>
+</div></section>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="bus" viewBox="0 0 96 40"><path d="M6 6h78a6 6 0 0 1 6 6v18a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4V6z"/><rect x="12" y="11" width="14" height="10" rx="1" fill="#fff"/><rect x="30" y="11" width="14" height="10" rx="1" fill="#fff"/><rect x="48" y="11" width="14" height="10" rx="1" fill="#fff"/><rect x="66" y="11" width="14" height="10" rx="1" fill="#fff"/><circle cx="22" cy="34" r="5" fill="#172A45"/><circle cx="74" cy="34" r="5" fill="#172A45"/></symbol>
+    <symbol id="micro" viewBox="0 0 96 40"><path d="M18 8h60a6 6 0 0 1 6 6v16a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4V8z"/><rect x="24" y="13" width="12" height="9" rx="1" fill="#fff"/><rect x="40" y="13" width="12" height="9" rx="1" fill="#fff"/><rect x="56" y="13" width="12" height="9" rx="1" fill="#fff"/><circle cx="32" cy="34" r="5" fill="#172A45"/><circle cx="70" cy="34" r="5" fill="#172A45"/></symbol>
+  </defs>
+</svg>
+
+<div class="nav" aria-label="Navegação de slides"><button type="button" id="prev" aria-label="Slide anterior">←</button><span id="pos">1 / 12</span><button type="button" id="next" aria-label="Próximo slide">→</button></div>
+
+<script>
+var rA=[[-16.81141, -49.24175], [-16.81128, -49.24129], [-16.81142, -49.24124], [-16.81186, -49.24193], [-16.81198, -49.24198], [-16.81225, -49.24254], [-16.81235, -49.24272], [-16.81253, -49.24271], [-16.81259, -49.2426], [-16.81256, -49.24244], [-16.81243, -49.24238], [-16.81171, -49.24119], [-16.8114, -49.24038], [-16.8115, -49.24019], [-16.81391, -49.24036], [-16.81517, -49.24032], [-16.81719, -49.24074], [-16.81821, -49.24101], [-16.81953, -49.24119], [-16.82119, -49.24154], [-16.82291, -49.24186], [-16.82399, -49.24208], [-16.8261, -49.24256], [-16.82651, -49.24278], [-16.82678, -49.24262], [-16.82689, -49.24226], [-16.82677, -49.24199], [-16.82612, -49.24202], [-16.82484, -49.24178], [-16.82448, -49.23945], [-16.82523, -49.23745], [-16.8261, -49.23551], [-16.82618, -49.23542], [-16.82615, -49.23529], [-16.82701, -49.23355], [-16.82851, -49.2302], [-16.83009, -49.22703], [-16.83044, -49.22642], [-16.83074, -49.22573], [-16.83142, -49.22435], [-16.83231, -49.22257], [-16.83329, -49.22148], [-16.83486, -49.21984], [-16.83611, -49.21856], [-16.83753, -49.21705], [-16.8385, -49.21628], [-16.83952, -49.2157], [-16.84137, -49.2144], [-16.84176, -49.21419], [-16.84354, -49.21351], [-16.84519, -49.21134], [-16.84597, -49.2087], [-16.84651, -49.20673], [-16.84654, -49.20618], [-16.84652, -49.20129], [-16.84663, -49.20109], [-16.84664, -49.20084], [-16.84642, -49.20072], [-16.84754, -49.18885], [-16.84624, -49.18606], [-16.84538, -49.1839], [-16.84529, -49.18192], [-16.84536, -49.17931], [-16.8457, -49.17703], [-16.8461, -49.17556], [-16.84616, -49.17549], [-16.84614, -49.17539], [-16.84606, -49.17534], [-16.84597, -49.17539], [-16.84595, -49.17548], [-16.84564, -49.1764], [-16.84539, -49.17633], [-16.84524, -49.17632], [-16.84509, -49.17639], [-16.84457, -49.17628], [-16.8443, -49.17612], [-16.84397, -49.17598], [-16.84362, -49.17595], [-16.84335, -49.17596], [-16.84322, -49.17603], [-16.84319, -49.17618], [-16.84329, -49.1763], [-16.84287, -49.17724], [-16.84328, -49.17658]], rB=[[-16.60513, -49.26254], [-16.60536, -49.26284], [-16.60595, -49.26267], [-16.60641, -49.26252], [-16.60662, -49.26229], [-16.60589, -49.25987], [-16.60562, -49.25905], [-16.60554, -49.25896], [-16.60535, -49.25894], [-16.60524, -49.25888], [-16.60516, -49.25872], [-16.6049, -49.25802], [-16.60454, -49.2575], [-16.60461, -49.25738], [-16.60456, -49.25727], [-16.60441, -49.25722], [-16.60435, -49.25685], [-16.60575, -49.25572], [-16.6088, -49.25349], [-16.60973, -49.25297], [-16.61003, -49.25287], [-16.6119, -49.25152], [-16.61205, -49.25137], [-16.61198, -49.25119], [-16.61158, -49.25003], [-16.61073, -49.24732], [-16.60989, -49.24452], [-16.60986, -49.24388], [-16.61106, -49.24375], [-16.61322, -49.24372], [-16.61361, -49.2437], [-16.61643, -49.24387], [-16.61753, -49.24398], [-16.62062, -49.24438], [-16.62253, -49.2445], [-16.62296, -49.24469], [-16.62329, -49.24453], [-16.62346, -49.24413], [-16.62408, -49.24376], [-16.62632, -49.2419], [-16.62759, -49.24057], [-16.62939, -49.23855], [-16.63036, -49.23798], [-16.6335, -49.23679], [-16.63485, -49.23732], [-16.63667, -49.23838], [-16.63831, -49.23936], [-16.64134, -49.24117], [-16.64234, -49.24188], [-16.64371, -49.24229], [-16.64486, -49.24216], [-16.64541, -49.24197], [-16.64612, -49.24177], [-16.64722, -49.24196], [-16.6497, -49.24352], [-16.65113, -49.24444], [-16.65292, -49.24562], [-16.6552, -49.2471], [-16.65549, -49.24728], [-16.65688, -49.248], [-16.65791, -49.24771], [-16.65853, -49.2475], [-16.65994, -49.24705], [-16.66027, -49.24694], [-16.66172, -49.24649], [-16.66373, -49.24586], [-16.66456, -49.24565], [-16.66491, -49.24564], [-16.66528, -49.24549], [-16.66555, -49.2453], [-16.66785, -49.24459], [-16.66798, -49.24458], [-16.6688, -49.24428], [-16.67061, -49.24371], [-16.67099, -49.24457], [-16.67247, -49.24409], [-16.67432, -49.24353], [-16.67593, -49.24302], [-16.67612, -49.24331], [-16.67641, -49.24432], [-16.67655, -49.24503], [-16.67658, -49.24522], [-16.67673, -49.24527], [-16.67687, -49.24512], [-16.67663, -49.24445], [-16.67635, -49.24347], [-16.67624, -49.24286], [-16.67604, -49.24267], [-16.67617, -49.24223], [-16.67644, -49.24223], [-16.67658, -49.24214], [-16.67697, -49.24212], [-16.67707, -49.2425], [-16.67708, -49.2427], [-16.67729, -49.24276], [-16.67739, -49.24262], [-16.6798, -49.24185], [-16.67993, -49.24183], [-16.68075, -49.24154], [-16.68147, -49.24135], [-16.68171, -49.24133], [-16.68249, -49.24242], [-16.68265, -49.24264], [-16.68419, -49.24271], [-16.68428, -49.24272], [-16.68673, -49.24282], [-16.68792, -49.24284], [-16.68799, -49.24292], [-16.6881, -49.24283], [-16.68818, -49.24263], [-16.68949, -49.24053], [-16.68994, -49.23977], [-16.69171, -49.23688], [-16.69394, -49.23449], [-16.69448, -49.23394], [-16.695, -49.23315], [-16.69546, -49.23274], [-16.69671, -49.23182], [-16.69793, -49.23164], [-16.69819, -49.23152], [-16.69857, -49.23143], [-16.69897, -49.23139], [-16.70266, -49.23119], [-16.70509, -49.231], [-16.70888, -49.23094], [-16.71013, -49.23134], [-16.71257, -49.23309], [-16.71805, -49.23759], [-16.71931, -49.23835], [-16.72368, -49.24006], [-16.72539, -49.24077], [-16.72731, -49.2415], [-16.72961, -49.24298], [-16.73177, -49.2437], [-16.73374, -49.24366], [-16.7367, -49.24291], [-16.74207, -49.24162], [-16.74293, -49.24142], [-16.7447, -49.24094], [-16.74529, -49.24082], [-16.74821, -49.24099], [-16.75045, -49.24142], [-16.75129, -49.2414], [-16.75298, -49.24121], [-16.75416, -49.2411], [-16.75695, -49.24095], [-16.75917, -49.2405], [-16.76614, -49.23969], [-16.76856, -49.23939], [-16.77178, -49.23853], [-16.77548, -49.23714], [-16.77741, -49.23693], [-16.78052, -49.23716], [-16.78428, -49.23747], [-16.78739, -49.23772], [-16.78855, -49.23788], [-16.78974, -49.23815], [-16.79102, -49.23829], [-16.79329, -49.23823], [-16.79876, -49.2387], [-16.80061, -49.239], [-16.80193, -49.23912], [-16.80615, -49.23931], [-16.81157, -49.23986], [-16.81495, -49.24015], [-16.81682, -49.24062], [-16.81807, -49.24097], [-16.81915, -49.24112], [-16.82105, -49.24151], [-16.8228, -49.24183], [-16.82346, -49.24196], [-16.826, -49.24253], [-16.82642, -49.24273], [-16.82671, -49.24271], [-16.82689, -49.24232], [-16.82683, -49.24206], [-16.82625, -49.24202], [-16.82527, -49.24187], [-16.82454, -49.23989], [-16.82516, -49.23761], [-16.82606, -49.23552], [-16.82617, -49.23545], [-16.82617, -49.23532], [-16.82647, -49.23464], [-16.82819, -49.23113], [-16.83006, -49.22704], [-16.83012, -49.22696], [-16.8306, -49.22602], [-16.83123, -49.22478], [-16.8321, -49.223], [-16.83294, -49.22183], [-16.83399, -49.22076], [-16.83586, -49.21883], [-16.83718, -49.21749], [-16.83785, -49.21677], [-16.83945, -49.21571], [-16.84095, -49.21472], [-16.84169, -49.21422], [-16.84336, -49.21363], [-16.84507, -49.21157], [-16.84546, -49.21061], [-16.84647, -49.20692], [-16.84654, -49.20636], [-16.84651, -49.20139], [-16.84659, -49.20114], [-16.84666, -49.2009], [-16.84649, -49.20073], [-16.84773, -49.1894], [-16.84686, -49.18745], [-16.84546, -49.18421], [-16.84527, -49.18234], [-16.84534, -49.17961], [-16.84556, -49.17754], [-16.84608, -49.17557], [-16.84615, -49.17551], [-16.84616, -49.17541], [-16.84608, -49.17535], [-16.84599, -49.17537], [-16.84595, -49.17546], [-16.84572, -49.1764], [-16.84543, -49.17635], [-16.84528, -49.17631], [-16.84512, -49.17638], [-16.84463, -49.1763], [-16.84437, -49.17616], [-16.84405, -49.17601], [-16.84371, -49.17595], [-16.84339, -49.17596], [-16.84325, -49.176], [-16.84319, -49.17614], [-16.84326, -49.17628], [-16.84291, -49.17715], [-16.84328, -49.17658], [-16.84328, -49.17658]];
+(function(){
+var A='#C8471B',B='#1F5FA8',F='#1A9060',INK='#172A45',INK2='#56637A',INK3='#8592A6',RULE='#D9DEE6',SOFT='#EDF0F4',DIM='#C3CAD4',WHITE='#fff';
+function el(n,a,c){var s='<'+n;for(var k in a)s+=' '+k+'="'+a[k]+'"';return c==null?s+'/>':s+'>'+c+'</'+n+'>';}
+function svg(w,h,body){return '<svg viewBox="0 0 '+w+' '+h+'" role="img">'+body+'</svg>';}
+function fmt(n){return n.toLocaleString('pt-BR');}
+
+/* Capa: diagrama de linhas (estilo mapa de metrô) */
+(function(){
+  var y1=42,y2=92,x0=110,x1=400,x2=690,x3=890;
+  var b='';
+  b+=el('path',{d:'M'+x0+' '+y1+' H'+x2+' Q'+(x2+60)+' '+y1+' '+(x2+70)+' '+(y1+20)+' L'+(x3-70)+' '+(y2-20)+' Q'+(x3-60)+' '+y2+' '+x3+' '+y2,fill:'none',stroke:B,'stroke-width':10,'stroke-linecap':'round'});
+  b+=el('path',{d:'M'+(x3-300)+' '+y2+' H'+x3,fill:'none',stroke:A,'stroke-width':10,'stroke-linecap':'round'});
+  function st(x,y,t,dy){b+=el('circle',{cx:x,cy:y,r:11,fill:WHITE,stroke:INK,'stroke-width':4});b+=el('text',{x:x,y:y+dy,'text-anchor':'middle','font-size':17,'class':'lbl'},t);}
+  st(x0,y1,'Câmpus Samambaia',-22);st(x1,y1,'Câmpus Colemar',-22);st(x3-300,y2,'Terminal Araguaia',36);st(x3,y2,'Câmpus Aparecida',36);
+  b+=el('text',{x:(x0+x1)/2,y:y1+34,'text-anchor':'middle','font-size':14,fill:INK2},'Linha B · intercampi · 36,5 km');
+  b+=el('text',{x:x3-150,y:y2-22,'text-anchor':'middle','font-size':14,fill:INK2},'Linha A · 10,8 km');
+  document.getElementById('diagrama').innerHTML=svg(1000,140,b);
+})();
+
+/* Mapa esquemático em SVG a partir do traçado OSRM */
+(function(){
+  var pts=rA.concat(rB),minLat=1e9,maxLat=-1e9,minLng=1e9,maxLng=-1e9;
+  pts.forEach(function(p){minLat=Math.min(minLat,p[0]);maxLat=Math.max(maxLat,p[0]);minLng=Math.min(minLng,p[1]);maxLng=Math.max(maxLng,p[1]);});
+  var k=Math.cos(-16.72*Math.PI/180),W=440,pad=70,scale=(W-2*pad)/((maxLng-minLng)*k),H=(maxLat-minLat)*scale+2*pad+30;
+  function P(p){return [pad+(p[1]-minLng)*k*scale, pad+(maxLat-p[0])*scale];}
+  function path(r){return r.map(function(p,i){var q=P(p);return (i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1);}).join('');}
+  var b=el('rect',{x:0,y:0,width:W,height:H,fill:SOFT});
+  b+=el('path',{d:path(rB),fill:'none',stroke:B,'stroke-width':6,'stroke-linejoin':'round','stroke-linecap':'round'});
+  b+=el('path',{d:path(rA),fill:'none',stroke:A,'stroke-width':6,'stroke-linejoin':'round','stroke-linecap':'round'});
+  var st=[[-16.6046,-49.2624,'Câmpus Samambaia','start',14,-14],[-16.6768,-49.2440,'Câmpus Colemar','start',16,5],[-16.8115,-49.2417,'Terminal Araguaia','end',-14,5],[-16.8437,-49.1768,'Câmpus Aparecida','end',-2,28]];
+  st.forEach(function(s){var q=P(s);b+=el('circle',{cx:q[0],cy:q[1],r:8,fill:WHITE,stroke:INK,'stroke-width':3});b+=el('text',{x:q[0]+s[4],y:q[1]+s[5],'text-anchor':s[3],'font-size':15,'class':'lbl'},s[2]);});
+  b+=el('text',{x:W-16,y:24,'text-anchor':'end','font-size':12,fill:INK3},'Goiânia');
+  b+=el('text',{x:W-16,y:H-16,'text-anchor':'end','font-size':12,fill:INK3},'Aparecida de Goiânia');
+  document.getElementById('mapa').innerHTML=svg(W,H,b);
+})();
+
+/* Linha do tempo genérica: horas decimais 6 a 24 */
+function timeline(id,rows,opts){
+  var W=1000,L=170,R=20,top=26,rh=opts.rowH||34,H=top+rows.length*rh+8,h0=6,h1=24,sx=(W-L-R)/(h1-h0);
+  function X(h){return L+(h-h0)*sx;}
+  var b='';
+  (opts.bands||[]).forEach(function(bd){b+=el('rect',{x:X(bd[0]),y:top-4,width:X(bd[1])-X(bd[0]),height:rows.length*rh+8,fill:SOFT});b+=el('text',{x:(X(bd[0])+X(bd[1]))/2,y:top-10,'text-anchor':'middle','font-size':11,'class':'axis'},bd[2]);});
+  for(var h=h0;h<=h1;h+=2){b+=el('line',{x1:X(h),x2:X(h),y1:top-4,y2:top+rows.length*rh+4,'class':'grid'});b+=el('text',{x:X(h),y:H,'text-anchor':'middle','font-size':11,'class':'axis'},h+'h');}
+  rows.forEach(function(r,i){
+    var y=top+i*rh+rh/2;
+    b+=el('text',{x:L-14,y:y+4,'text-anchor':'end','font-size':13,'class':'lbl'},r.label);
+    if(r.sub)b+=el('text',{x:L-14,y:y+17,'text-anchor':'end','font-size':10,fill:INK3},r.sub);
+    r.bars.forEach(function(t){
+      var x=X(t[0]),w1=X(t[1])-x,w2=X(t[2])-x,bh=opts.barH||14;
+      if(t[2]>t[1])b+=el('rect',{x:x+w1,y:y-bh/2,width:w2-w1,height:bh,fill:r.color,opacity:.3});
+      b+=el('rect',{x:x,y:y-bh/2,width:w1,height:bh,fill:r.color});
+      if(t[3]&&opts.labelIn)b+=el('text',{x:x+5,y:y+4,'font-size':11,fill:WHITE},t[3]);
+      else if(t[3])b+=el('text',{x:x,y:y-bh/2-4,'font-size':11,'class':'val'},t[3]);
+    });
+  });
+  document.getElementById(id).innerHTML=svg(W,H+4,b);
+}
+function hm(h,m){return h+m/60;}
+timeline('tl-viagens',[
+  {label:'Linha A',sub:'Terminal ↔ Câmpus',color:A,bars:[[hm(6,50),hm(7,10),hm(7,21),'6h50'],[hm(12,0),hm(12,20),hm(12,30),'12h00 e 12h40'],[hm(12,40),hm(13,0),hm(13,10),''],[hm(18,0),hm(18,20),hm(18,35),'18h00 e 18h30'],[hm(18,30),hm(18,50),hm(19,5),''],[hm(22,10),hm(22,30),hm(22,40),'22h10']]},
+  {label:'Linha B · V1',sub:'base Samambaia',color:B,bars:[[hm(6,50),hm(7,45),hm(8,30),'6h50, chega 7h45 a 8h30'],[hm(12,0),hm(12,55),hm(13,30),'12h00'],[hm(17,20),hm(18,15),hm(19,0),'17h20'],[hm(22,10),hm(23,0),hm(23,50),'22h10, chega até 23h50']]},
+  {label:'Linha B · V2',sub:'apoio',color:B,bars:[[hm(12,40),hm(13,35),hm(14,20),'12h40'],[hm(18,0),hm(19,0),hm(19,40),'18h00']]}
+],{bands:[[7.5,12,'matutino'],[13.5,18,'vespertino'],[19,22.17,'noturno']],rowH:40,barH:16});
+
+timeline('tl-escalas',[
+  {label:'Linha A · turno 1',sub:'≈ 1h15 de direção',color:F,bars:[[hm(6,20),hm(14,20),hm(14,20),'6h20 às 14h20']]},
+  {label:'Linha A · turno 2',sub:'≈ 1h15 de direção',color:F,bars:[[hm(14,40),hm(22,40),hm(22,40),'14h40 às 22h40']]},
+  {label:'Linha B · V1 turno 1',sub:'≈ 2h20 de direção',color:F,bars:[[hm(6,20),hm(14,20),hm(14,20),'6h20 às 14h20']]},
+  {label:'Linha B · V1 turno 2',sub:'≈ 2h20 de direção',color:F,bars:[[hm(16,0),hm(24,0),hm(24,0),'16h às 0h']]},
+  {label:'Linha B · V2 turno 3',sub:'≈ 2h20 de direção',color:F,bars:[[hm(12,10),hm(19,30),hm(19,30),'12h10 às 19h30']]}
+],{rowH:30,barH:14,labelIn:true});
+
+/* Gráfico do piso: custo mensal × km */
+(function(){
+  var W=640,H=380,L=70,R=24,T=26,Bt=44,xmax=5000,ymax=50000,lo=8,hi=9.5,piso=18000;
+  function X(k){return L+k/xmax*(W-L-R);} function Y(v){return T+(1-v/ymax)*(H-T-Bt);}
+  var b='';
+  for(var v=0;v<=ymax;v+=10000){b+=el('line',{x1:L,x2:W-R,y1:Y(v),y2:Y(v),'class':'grid'});b+=el('text',{x:L-8,y:Y(v)+4,'text-anchor':'end','font-size':11,'class':'axis'},v?'R$ '+v/1000+' mil':'0');}
+  for(var k=0;k<=xmax;k+=1000){b+=el('text',{x:X(k),y:H-Bt+18,'text-anchor':'middle','font-size':11,'class':'axis'},fmt(k));}
+  b+=el('text',{x:(L+W-R)/2,y:H-6,'text-anchor':'middle','font-size':12,'class':'axis'},'km rodados por mês, um veículo');
+  var kl=piso/lo,kh=piso/hi,step=50,up='',dn='';
+  for(var k=0;k<=xmax;k+=step){up+=(k?'L':'M')+X(k)+' '+Y(Math.max(k*hi,piso))+' ';}
+  for(var k=xmax;k>=0;k-=step){dn+='L'+X(k)+' '+Y(Math.max(k*lo,piso))+' ';}
+  b+=el('path',{d:up+dn+'Z',fill:B,opacity:.13});
+  b+=el('path',{d:'M'+X(0)+' '+Y(piso)+' L'+X(kh)+' '+Y(piso)+' L'+X(xmax)+' '+Y(xmax*hi),fill:'none',stroke:B,'stroke-width':2,'stroke-linejoin':'round'});
+  b+=el('path',{d:'M'+X(0)+' '+Y(piso)+' L'+X(kl)+' '+Y(piso)+' L'+X(xmax)+' '+Y(xmax*lo),fill:'none',stroke:B,'stroke-width':2,'stroke-linejoin':'round'});
+  b+=el('text',{x:X(4300),y:Y(4300*hi)-10,'text-anchor':'middle','font-size':12,'class':'val'},'R$ 9,50/km');
+  b+=el('text',{x:X(4500),y:Y(4500*lo)+18,'text-anchor':'middle','font-size':12,'class':'val'},'R$ 8,00/km');
+  b+=el('text',{x:X(60),y:Y(piso)-9,'font-size':12,'class':'val'},'piso R$ 18 mil: veículo à disposição');
+  var ka=1426,kb=2409;
+  b+=el('line',{x1:X(ka),x2:X(ka),y1:Y(piso),y2:Y(0),stroke:A,'stroke-width':1,'stroke-dasharray':'3 3'});
+  b+=el('circle',{cx:X(ka),cy:Y(piso),r:7,fill:A,stroke:WHITE,'stroke-width':2});
+  b+=el('text',{x:X(ka),y:Y(piso)+26,'text-anchor':'middle','font-size':12,'class':'val'},'Linha A · 1.426 km');
+  b+=el('text',{x:X(ka),y:Y(piso)+40,'text-anchor':'middle','font-size':11,fill:INK2},'paga o piso: R$ 18 mil');
+  b+=el('line',{x1:X(kb),x2:X(kb),y1:Y(kb*hi),y2:Y(0),stroke:B,'stroke-width':1,'stroke-dasharray':'3 3'});
+  b+=el('circle',{cx:X(kb),cy:Y(kb*lo),r:7,fill:B,stroke:WHITE,'stroke-width':2});
+  b+=el('circle',{cx:X(kb),cy:Y(kb*hi),r:7,fill:B,stroke:WHITE,'stroke-width':2});
+  b+=el('text',{x:X(kb)+12,y:Y(kb*hi)-12,'font-size':12,'class':'val'},'Linha B · 2.409 km por veículo');
+  b+=el('text',{x:X(kb)+12,y:Y(kb*hi)+2,'font-size':11,fill:INK2},'R$ 19 a 23 mil cada, antes do acréscimo de 10%');
+  document.getElementById('ch-piso').innerHTML=svg(W,H,b);
+})();
+
+/* Referências de preço por km */
+(function(){
+  var rows=[
+    {g:'Contratos no PNCP'},
+    {l:'Van · UFC 2026',lo:5.29,hi:6.0,c:DIM},
+    {l:'Van · Tucumã/PA 2024',lo:7.47,hi:7.47,c:DIM},
+    {l:'Micro-ônibus · UFC 2026',lo:7.0,hi:10.0,c:DIM},
+    {l:'Ônibus · UFPI 2025, franquia 3.000 km',lo:9.26,hi:10.35,c:DIM},
+    {l:'Ônibus rodoviário · UFC 2026',lo:13.75,hi:13.75,c:DIM},
+    {g:'Faixa adotada para Goiânia, veículo dedicado'},
+    {l:'Van 15 lugares · piso R$ 14 mil',lo:6.5,hi:8.0,c:B},
+    {l:'Micro-ônibus 28 lugares · piso R$ 18 mil',lo:8.0,hi:9.5,c:B},
+    {l:'Ônibus 44 lugares · piso R$ 24 mil',lo:9.5,hi:11.0,c:B}
+  ];
+  var W=700,L=300,R=70,T=10,rh=30,gh=34,xmax=15,y=T,b='',H=0;
+  rows.forEach(function(r){H+=r.g?gh:rh;});H+=T+30;
+  function X(v){return L+v/xmax*(W-L-R);}
+  for(var v=0;v<=xmax;v+=5){b+=el('line',{x1:X(v),x2:X(v),y1:T,y2:H-28,'class':'grid'});b+=el('text',{x:X(v),y:H-8,'text-anchor':'middle','font-size':11,'class':'axis'},'R$ '+v);}
+  rows.forEach(function(r){
+    if(r.g){y+=gh;b+=el('text',{x:0,y:y-8,'font-size':11,'font-weight':600,'letter-spacing':'.08em',fill:INK3},r.g.toUpperCase());return;}
+    var cy=y+rh/2;y+=rh;
+    b+=el('text',{x:L-14,y:cy+4,'text-anchor':'end','font-size':12.5,'class':r.c===DIM?'':'lbl',fill:r.c===DIM?INK2:INK},r.l);
+    b+=el('line',{x1:X(r.lo),x2:X(r.hi),y1:cy,y2:cy,stroke:r.c,'stroke-width':6,'stroke-linecap':'round'});
+    b+=el('circle',{cx:X(r.lo),cy:cy,r:6,fill:r.c,stroke:WHITE,'stroke-width':2});
+    if(r.hi>r.lo)b+=el('circle',{cx:X(r.hi),cy:cy,r:6,fill:r.c,stroke:WHITE,'stroke-width':2});
+    var t=r.hi>r.lo?r.lo.toFixed(2).replace('.',',')+' a '+r.hi.toFixed(2).replace('.',','):r.lo.toFixed(2).replace('.',',');
+    b+=el('text',{x:X(r.hi)+12,y:cy+4,'font-size':12,'class':'val'},t);
+  });
+  document.getElementById('ch-precos').innerHTML=svg(W,H,b);
+})();
+
+/* Comparação anual, R$ mil */
+(function(){
+  var W=680,L=250,R=110,T=34,rh=64,xmax=800,bh=22;
+  var rows=[
+    {l:'Fretamento A + B',sub:'micro-ônibus por km, 9 meses',segs:[[0,544,B,1]],range:[544,615],val:'544 a 615'},
+    {l:'Frota própria',sub:'veículos da CTR já disponíveis',segs:[[0,454,F,1,'folha 454'],[454,617,F,.45,'operação 163']],val:'617'},
+    {l:'Frota própria comprando',sub:'3 micro-ônibus, rateio em 10 anos',segs:[[0,454,F,1,'folha 454'],[454,617,F,.45,'operação 163'],[617,761,DIM,1,'rateio 144']],val:'761',extra:'+ R$ 1,44 mi à vista'}
+  ];
+  var H=T+rows.length*rh+30,b='';
+  function X(v){return L+v/xmax*(W-L-R);}
+  for(var v=0;v<=xmax;v+=200){b+=el('line',{x1:X(v),x2:X(v),y1:T-8,y2:T+rows.length*rh,'class':'grid'});b+=el('text',{x:X(v),y:H-6,'text-anchor':'middle','font-size':11,'class':'axis'},v?fmt(v):'0');}
+  b+=el('text',{x:X(xmax),y:T-16,'text-anchor':'end','font-size':11,'class':'axis'},'R$ mil por ano');
+  rows.forEach(function(r,i){
+    var cy=T+i*rh+rh/2;
+    b+=el('text',{x:L-14,y:cy-2,'text-anchor':'end','font-size':14,'class':'lbl'},r.l);
+    b+=el('text',{x:L-14,y:cy+14,'text-anchor':'end','font-size':11,fill:INK3},r.sub);
+    r.segs.forEach(function(s,j){
+      var x=X(s[0])+(j?2:0),w=X(s[1])-X(s[0])-(j?2:0),last=j===r.segs.length-1&&!r.range;
+      b+=el('rect',{x:x,y:cy-bh/2,width:w,height:bh,fill:s[2],opacity:s[3],rx:last?4:0});
+      if(s[4]&&w>70)b+=el('text',{x:x+w/2,y:cy+4,'text-anchor':'middle','font-size':11,fill:s[3]<1||s[2]===DIM?INK:WHITE},s[4]);
+    });
+    if(r.range){b+=el('rect',{x:X(r.range[0])+2,y:cy-bh/2,width:X(r.range[1])-X(r.range[0])-2,height:bh,fill:B,opacity:.35,rx:4});}
+    var xe=X(r.range?r.range[1]:r.segs[r.segs.length-1][1]);
+    b+=el('text',{x:xe+10,y:cy+(r.extra?-1:5),'font-size':15,'class':'disp'},r.val);
+    if(r.extra)b+=el('text',{x:xe+10,y:cy+15,'font-size':11,fill:A,'font-weight':600},r.extra);
+  });
+  document.getElementById('ch-anual').innerHTML=svg(W,H,b);
+})();
+
+/* Navegação */
+var slides=Array.prototype.slice.call(document.querySelectorAll('.slide')),cur=0,pos=document.getElementById('pos'),animating=0;
+function show(){pos.textContent=(cur+1)+' / '+slides.length;}
+function go(i){cur=Math.max(0,Math.min(slides.length-1,i));show();clearTimeout(animating);animating=setTimeout(function(){animating=0;},900);slides[cur].scrollIntoView({behavior:'smooth',block:'start'});}
+document.addEventListener('scrollend',function(){clearTimeout(animating);animating=0;});
+document.getElementById('prev').addEventListener('click',function(){go(cur-1);});
+document.getElementById('next').addEventListener('click',function(){go(cur+1);});
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1);}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+  else if(e.key==='Home'){go(0);}else if(e.key==='End'){go(slides.length-1);}
+  else if(e.key==='f'||e.key==='F'){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+});
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){if(animating)return;es.forEach(function(x){if(x.isIntersecting){cur=slides.indexOf(x.target);show();}});},{threshold:.6});
+  slides.forEach(function(s){io.observe(s);});
+}
+})();
+</script>
+</body>
+</html>
