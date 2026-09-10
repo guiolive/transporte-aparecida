@@ -72,17 +72,15 @@ a{color:#1F4E78}
 
 <div class="box">
 <h3>Linha A. Terminal Araguaia → Câmpus Aparecida</h3>
-<p class="note">Quadro proposto: 3 pares de ida e volta (manhã, tarde e noite), 6 viagens por dia. As viagens são encadeadas: o veículo sobe cheio ao câmpus antes da aula e desce cheio ao terminal depois da aula, sem retorno vazio. Quilometragem paga: 10,8 km por viagem (Google Maps).</p>
+<p class="note">Quadro proposto: 2 pares de ida e volta (manhã e tarde), 4 viagens por dia, com a última saída às 18h. As viagens são encadeadas: o veículo sobe cheio ao câmpus antes da aula e desce cheio ao terminal depois da aula, sem retorno vazio. Quilometragem paga: 10,8 km por viagem (Google Maps).</p>
 <table>
 <tr><th>Saída</th><th>Sentido</th><th>Atende</th></tr>
 <tr><td>6h50</td><td>Terminal → Câmpus</td><td>Entrada do matutino, aula das 7h30 (chega 7h10 a 7h20)</td></tr>
 <tr><td>12h00</td><td>Câmpus → Terminal</td><td>Saída do matutino (chega 12h20 a 12h30)</td></tr>
 <tr><td>12h40</td><td>Terminal → Câmpus</td><td>Entrada do vespertino, aula das 13h30 (chega 13h00 a 13h10)</td></tr>
 <tr><td>18h00</td><td>Câmpus → Terminal</td><td>Saída do vespertino (chega 18h20 a 18h35)</td></tr>
-<tr><td>18h30</td><td>Terminal → Câmpus</td><td>Entrada do noturno, aula das 19h (chega 18h50 a 19h05)</td></tr>
-<tr><td>22h10</td><td>Câmpus → Terminal</td><td>Saída do noturno (chega 22h30 a 22h40)</td></tr>
 </table>
-<label>Viagens por dia</label><input id="a_v" type="number" value="6" min="1">
+<label>Viagens por dia</label><input id="a_v" type="number" value="4" min="1">
 <label>Quilometragem paga</label>
 <select id="a_sent">
 <option value="10.8|1" selected>Viagens encadeadas ida/volta (10,8 km por viagem, veículo dedicado, com piso)</option>
@@ -107,21 +105,19 @@ a{color:#1F4E78}
 
 <div class="box">
 <h3>Linha B. Intercampi Samambaia → Colemar → Aparecida</h3>
-<p class="note">Quadro com 3 pares de ida e volta (manhã, tarde e noite), 6 viagens por dia, cerca de 36,5 km por sentido (Google Maps). Um veículo só não fecha a troca de turno: às 12h e às 18h ele precisa estar nas duas pontas ao mesmo tempo, e cada perna leva 40 min a 1h15. Por isso o quadro usa dois veículos: V1 baseado em Samambaia (4 viagens) e V2 de apoio (2 viagens).</p>
+<p class="note">Quadro com 2 pares de ida e volta (manhã e tarde), 4 viagens por dia, cerca de 36,5 km por sentido (Google Maps), com a última saída às 18h. Um veículo (V1, baseado em Samambaia) fecha o quadro: como cada perna leva 40 min a 1h15, a ida do vespertino só parte depois que a volta do matutino chega a Samambaia, às 13h30.</p>
 <table>
 <tr><th>Saída</th><th>Veículo</th><th>Sentido</th><th>Chegada prevista</th><th>Atende</th></tr>
 <tr><td>6h50</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>7h45 a 8h30</td><td>Entrada do matutino</td></tr>
 <tr><td>12h00</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>12h55 a 13h30</td><td>Saída do matutino</td></tr>
-<tr><td>12h40</td><td>V2</td><td>Samambaia → Colemar → Aparecida</td><td>13h35 a 14h20</td><td>Entrada do vespertino</td></tr>
-<tr><td>18h00</td><td>V2</td><td>Aparecida → Colemar → Samambaia</td><td>19h00 a 19h40</td><td>Saída do vespertino</td></tr>
-<tr><td>17h20</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>18h15 a 19h00</td><td>Entrada do noturno</td></tr>
-<tr><td>22h10</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>23h00 a 23h50</td><td>Saída do noturno</td></tr>
+<tr><td>13h30</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>14h25 a 15h10</td><td>Entrada do vespertino</td></tr>
+<tr><td>18h00</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>19h00 a 19h40</td><td>Saída do vespertino</td></tr>
 </table>
-<p class="note">Com tempo de ônibus, a ida do noturno sai às 17h20 e a última volta chega em Samambaia perto de 0h, então o turno 2 do motorista de V1 vai até a meia-noite. O intercampi das 6h50 chega em Aparecida entre 7h45 e 8h30: não atende aula às 7h30, só a partir das 8h30. Isso precisa ser dito à Reitoria.</p>
-<p class="note">Se a Reitoria decidir atender só docentes do matutino e vespertino, V2 sai do quadro e V1 faz 4 viagens (6h50, 12h00, 13h20 chegando às 14h25, 18h00). Nesse caso o vespertino chega depois das 14h.</p>
-<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="6" min="1">
+<p class="note">O intercampi das 6h50 chega em Aparecida entre 7h45 e 8h30: não atende aula às 7h30, só a partir das 8h30. A ida do vespertino chega entre 14h25 e 15h10, depois do início da aula das 13h30. A última volta chega em Samambaia entre 19h00 e 19h40. Isso precisa ser dito à Reitoria.</p>
+<p class="note">Se a Reitoria incluir o turno noturno, o quadro volta a 6 viagens e precisa de um segundo veículo de apoio, porque às 12h e às 18h o veículo teria de estar nas duas pontas ao mesmo tempo.</p>
+<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="4" min="1">
 <label>Veículos dedicados</label>
-<select id="b_nv"><option value="1">1 (só matutino e vespertino, 4 viagens)</option><option value="2" selected>2 (três turnos, 6 viagens)</option></select>
+<select id="b_nv"><option value="1" selected>1 (matutino e vespertino, 4 viagens)</option><option value="2">2 (com turno noturno, 6 viagens)</option></select>
 <label>Km por viagem</label><input id="b_km" type="number" value="36.5" step="0.1">
 <label>Dias letivos por mês</label><input id="b_d" type="number" value="22">
 <label>Veículo</label>
@@ -148,28 +144,27 @@ a{color:#1F4E78}
 </table>
 
 
-<h2>4. Frota própria: motorista da UFG nos 3 turnos</h2>
+<h2>4. Frota própria: motorista da UFG nos 2 turnos</h2>
 <p class="note"><b>Frota própria pressupõe veículo disponível.</b> A calculadora abaixo nasce marcada para usar veículos da frota atual da CTR. Se eles não estiverem livres nos horários, desmarque a opção e o custo de compra entra: micro-ônibus R$ 450 a 550 mil, ônibus urbano R$ 750 a 950 mil, pagos à vista no ano da compra, além do rateio mensal na tabela.</p>
-<p class="note">Premissa: motorista a R$ 6.300/mês (salário e encargos), jornada de 40 horas semanais, 8 horas por dia, com intervalo. Regras da Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas. As escalas abaixo cobrem manhã, tarde e noite com dois turnos de 8 horas por linha.</p>
+<p class="note">Premissa: motorista a R$ 6.300/mês (salário e encargos), jornada de 40 horas semanais, 8 horas por dia, com intervalo. Regras da Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas. As escalas abaixo cobrem manhã e tarde com dois turnos de 8 horas por linha: a janela de operação, das 6h20 às 18h40 na Linha A e às 20h na Linha B, passa de 10 horas e não cabe em uma jornada só.</p>
 <div class="grid">
 <div class="box">
 <h3>Escala Linha A (Terminal Araguaia)</h3>
 <table>
 <tr><th>Turno</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
-<tr><td>1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta, 12h40 ida</td><td class="num">≈ 1h15</td></tr>
-<tr><td>2</td><td>14h40 às 22h40</td><td>18h00 volta, 18h30 ida, 22h10 volta</td><td class="num">≈ 1h15</td></tr>
+<tr><td>1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta</td><td class="num">≈ 50 min</td></tr>
+<tr><td>2</td><td>10h40 às 18h40</td><td>12h40 ida, 18h00 volta</td><td class="num">≈ 50 min</td></tr>
 </table>
-<p class="note">Dois motoristas cobrem os três períodos. A ociosidade é alta (cerca de 2h30 de direção em 16 horas de jornada), o que reforça compartilhar o motorista com outras demandas da CTR nos intervalos.</p>
+<p class="note">Dois motoristas cobrem manhã e tarde, com jornadas sobrepostas entre 10h40 e 14h20. A ociosidade é alta (cerca de 1h40 de direção em 16 horas de jornada), o que reforça compartilhar o motorista com outras demandas da CTR nos intervalos.</p>
 </div>
 <div class="box">
 <h3>Escala Linha B (Intercampi)</h3>
 <table>
 <tr><th>Turno</th><th>Veículo</th><th>Jornada</th><th>Viagens cobertas</th><th class="num">Direção efetiva</th></tr>
 <tr><td>1</td><td>V1</td><td>6h20 às 14h20</td><td>6h50 ida, 12h00 volta</td><td class="num">≈ 2h20</td></tr>
-<tr><td>2</td><td>V1</td><td>16h00 às 0h00</td><td>17h20 ida, 22h10 volta</td><td class="num">≈ 2h20</td></tr>
-<tr><td>3</td><td>V2</td><td>12h10 às 19h30</td><td>12h40 ida, 18h00 volta</td><td class="num">≈ 2h20</td></tr>
+<tr><td>2</td><td>V1</td><td>12h00 às 20h00</td><td>13h30 ida, 18h00 volta</td><td class="num">≈ 2h20</td></tr>
 </table>
-<p class="note">Três motoristas para dois veículos. O turno 3 tem 7h20 de jornada e pode ser fechado com outra demanda da CTR. Se V2 sair do quadro, bastam dois motoristas.</p>
+<p class="note">Dois motoristas para um veículo. Se a Reitoria incluir o turno noturno, entram um segundo veículo e um terceiro motorista.</p>
 </div>
 </div>
 
@@ -192,7 +187,7 @@ a{color:#1F4E78}
 <div>
 <label>Custo mensal por motorista (R$)</label><input id="f_sal" type="number" value="6300">
 <label>Motoristas Linha A</label><input id="f_ma" type="number" value="2" min="0">
-<label>Motoristas Linha B</label><input id="f_mb" type="number" value="3" min="0">
+<label>Motoristas Linha B</label><input id="f_mb" type="number" value="2" min="0">
 <label>Motoristas reserva (férias e faltas, compartilhados)</label><input id="f_res" type="number" value="1" min="0">
 </div>
 <div>
@@ -208,7 +203,7 @@ a{color:#1F4E78}
 <tr><td>Linha B</td><td class="num" id="f_b_n"></td><td class="num" id="f_b_folha"></td><td class="num" id="f_b_veic"></td><td class="num" id="f_b_aq"></td><td class="num" id="f_b_tot"></td><td class="num" id="f_b_fret"></td></tr>
 <tr class="total"><td>A + B com reserva</td><td class="num" id="f_ab_n"></td><td class="num" id="f_ab_folha"></td><td class="num" id="f_ab_veic"></td><td class="num" id="f_ab_aq"></td><td class="num" id="f_ab_tot"></td><td class="num" id="f_ab_fret"></td></tr>
 </table>
-<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um para a Linha A e um ou dois para a Linha B, desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
+<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um veículo para cada linha, desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
 <p class="note">A folha da frota própria é custo fixo de 12 meses; o fretamento paga só meses letivos. Na comparação anual, multiplique a folha por 12 e o fretamento por 9. A frota própria só compensa se a UFG já tiver o veículo disponível e o motorista puder ser aproveitado em outras rotas nos intervalos.</p>
 </div>
 
