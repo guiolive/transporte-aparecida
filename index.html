@@ -25,15 +25,28 @@ tr.total td{background:#E9EEF4;font-weight:bold}
 .box h3{margin-top:0}
 label{display:block;font-size:12px;color:#444;margin:8px 0 2px}
 input,select{width:100%;padding:6px;border:1px solid #888;font-family:Arial;font-size:14px;border-radius:0}
-.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
-.kpi div{border:1px solid #1F4E78;padding:10px}
-.kpi b{display:block;font-size:20px;color:#1F4E78}
-.kpi span{font-size:12px;color:#555}
 #map{height:420px;border:1px solid #1F4E78;margin:8px 0}
 .note{font-size:12px;color:#555;margin:6px 0}
 ol,ul{padding-left:20px;margin:6px 0}
 a{color:#1F4E78}
 .leg{display:inline-block;width:26px;height:4px;vertical-align:middle;margin-right:6px}
+.ctl{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:end}
+.ctl label{margin-top:0}
+.seg{display:flex}
+.seg button{min-width:48px;padding:6px 12px;border:1px solid #1F4E78;background:#fff;color:#1F4E78;font:bold 14px Arial,Helvetica,sans-serif;cursor:pointer}
+.seg button+button{border-left:0}
+.seg button.on{background:#1F4E78;color:#fff}
+.custo{border:1px solid #1F4E78;background:#E9EEF4;padding:12px 14px;margin:12px 0 4px}
+.custo b{font-size:28px;color:#1F4E78}
+.custo small{font-size:13px;color:#1F4E78}
+.custo span{display:block;font-size:12px;color:#555;margin-top:2px}
+.late{color:#C0504D;font-weight:bold}
+td.t{white-space:nowrap}
+.grid>div{min-width:0}
+.qw{overflow-x:auto}
+@media(max-width:520px){.custo b{font-size:22px}.ctl{grid-template-columns:1fr}.box table{font-size:12px}.box th,.box td{padding:5px}}
+details{margin-top:8px;font-size:12px}
+summary{cursor:pointer;color:#1F4E78}
 </style>
 </head>
 <body>
@@ -72,66 +85,48 @@ a{color:#1F4E78}
 
 <div class="box">
 <h3>Linha A. Terminal Araguaia → Câmpus Aparecida</h3>
-<p class="note">Quadro proposto: 2 pares de ida e volta (manhã e tarde), 4 viagens por dia, com a última saída às 18h. As viagens são encadeadas: o veículo sobe cheio ao câmpus antes da aula e desce cheio ao terminal depois da aula, sem retorno vazio. Quilometragem paga: 10,8 km por viagem (Google Maps).</p>
-<table>
-<tr><th>Saída</th><th>Sentido</th><th>Atende</th></tr>
-<tr><td>6h50</td><td>Terminal → Câmpus</td><td>Entrada do matutino, aula das 7h30 (chega 7h10 a 7h20)</td></tr>
-<tr><td>12h00</td><td>Câmpus → Terminal</td><td>Saída do matutino (chega 12h20 a 12h30)</td></tr>
-<tr><td>12h40</td><td>Terminal → Câmpus</td><td>Entrada do vespertino, aula das 13h30 (chega 13h00 a 13h10)</td></tr>
-<tr><td>18h00</td><td>Câmpus → Terminal</td><td>Saída do vespertino (chega 18h20 a 18h35)</td></tr>
-</table>
-<label>Viagens por dia</label><input id="a_v" type="number" value="4" min="1">
-<label>Quilometragem paga</label>
-<select id="a_sent">
-<option value="10.8|1" selected>Viagens encadeadas ida/volta (10,8 km por viagem, veículo dedicado, com piso)</option>
-<option value="21.6|1">Cada viagem com retorno vazio (21,6 km por viagem, veículo dedicado)</option>
-<option value="10.8|0">Por demanda, sem veículo dedicado (10,8 km por viagem, sem piso)</option>
-</select>
-<label>Km pago por viagem</label><input id="a_km" type="number" value="10.8" step="0.1">
-<label>Dias letivos por mês</label><input id="a_d" type="number" value="22">
-<label>Veículo</label>
-<select id="a_tipo">
+<div class="ctl">
+<div><label>Viagens por dia</label><div class="seg" data-for="a_v"><button type="button" data-v="2">2</button><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button></div></div>
+<div><label>Veículo</label><select id="a_tipo">
 <option value="6.5|8|14000">Van 15 lugares</option>
 <option value="8|9.5|18000" selected>Micro-ônibus 28 lugares</option>
 <option value="9.5|11|24000">Ônibus 44 lugares</option>
-</select>
-<div class="kpi">
-<div><b id="a_kmmes">0</b><span>km/mês</span></div>
-<div><b id="a_min">0</b><span>R$/mês (faixa inferior)</span></div>
-<div><b id="a_max">0</b><span>R$/mês (faixa superior)</span></div>
+</select></div>
 </div>
-<p class="note" id="a_obs"></p>
+<input type="hidden" id="a_v" value="4">
+<div class="custo"><b id="a_custo"></b> <small>por mês</small><span id="a_sub"></span></div>
+<div class="qw"><table id="a_quadro"></table></div>
+<details><summary>Premissas</summary>
+<label>Modelo de pagamento</label>
+<select id="a_sent">
+<option value="10.8|1" selected>Viagens encadeadas, sem retorno vazio (10,8 km por viagem, com piso)</option>
+<option value="21.6|1">Cada viagem com retorno vazio (21,6 km por viagem, com piso)</option>
+<option value="10.8|0">Por viagem realizada, sem piso (modelo IFPE, km 15% mais caro)</option>
+</select>
+<label>Km pago por viagem</label><input id="a_km" type="number" value="10.8" step="0.1">
+<label>Dias letivos por mês</label><input id="a_d" type="number" value="22">
+</details>
 </div>
 
 <div class="box">
 <h3>Linha B. Intercampi Samambaia → Colemar → Aparecida</h3>
-<p class="note">Quadro com 2 pares de ida e volta (manhã e tarde), 4 viagens por dia, cerca de 36,5 km por sentido (Google Maps), com a última saída às 18h. Um veículo (V1, baseado em Samambaia) fecha o quadro: como cada perna leva 40 min a 1h15, a ida do vespertino só parte depois que a volta do matutino chega a Samambaia, às 13h30.</p>
-<table>
-<tr><th>Saída</th><th>Veículo</th><th>Sentido</th><th>Chegada prevista</th><th>Atende</th></tr>
-<tr><td>6h50</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>7h45 a 8h30</td><td>Entrada do matutino</td></tr>
-<tr><td>12h00</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>12h55 a 13h30</td><td>Saída do matutino</td></tr>
-<tr><td>13h30</td><td>V1</td><td>Samambaia → Colemar → Aparecida</td><td>14h25 a 15h10</td><td>Entrada do vespertino</td></tr>
-<tr><td>18h00</td><td>V1</td><td>Aparecida → Colemar → Samambaia</td><td>19h00 a 19h40</td><td>Saída do vespertino</td></tr>
-</table>
-<p class="note">O intercampi das 6h50 chega em Aparecida entre 7h45 e 8h30: não atende aula às 7h30, só a partir das 8h30. A ida do vespertino chega entre 14h25 e 15h10, depois do início da aula das 13h30. A última volta chega em Samambaia entre 19h00 e 19h40. Isso precisa ser dito à Reitoria.</p>
-<p class="note">Se a Reitoria incluir o turno noturno, o quadro volta a 6 viagens e precisa de um segundo veículo de apoio, porque às 12h e às 18h o veículo teria de estar nas duas pontas ao mesmo tempo.</p>
-<label>Viagens por dia (um sentido cada)</label><input id="b_v" type="number" value="4" min="1">
-<label>Veículos dedicados</label>
-<select id="b_nv"><option value="1" selected>1 (matutino e vespertino, 4 viagens)</option><option value="2">2 (com turno noturno, 6 viagens)</option></select>
-<label>Km por viagem</label><input id="b_km" type="number" value="36.5" step="0.1">
-<label>Dias letivos por mês</label><input id="b_d" type="number" value="22">
-<label>Veículo</label>
-<select id="b_tipo">
+<div class="ctl">
+<div><label>Viagens por dia</label><div class="seg" data-for="b_v"><button type="button" data-v="2">2</button><button type="button" data-v="4">4</button><button type="button" data-v="6">6</button></div></div>
+<div><label>Veículo</label><select id="b_tipo">
 <option value="6.5|8|14000">Van 15 lugares</option>
 <option value="8|9.5|18000" selected>Micro-ônibus 28 lugares</option>
 <option value="9.5|11|24000">Ônibus 44 lugares</option>
-</select>
-<div class="kpi">
-<div><b id="b_kmmes">0</b><span>km/mês</span></div>
-<div><b id="b_min">0</b><span>R$/mês (faixa inferior)</span></div>
-<div><b id="b_max">0</b><span>R$/mês (faixa superior)</span></div>
+</select></div>
 </div>
-<p class="note" id="b_obs"></p>
+<input type="hidden" id="b_v" value="4">
+<div class="custo"><b id="b_custo"></b> <small>por mês</small><span id="b_sub"></span></div>
+<div class="qw"><table id="b_quadro"></table></div>
+<p class="note"><span class="late">Em vermelho</span>: chega depois do início da aula (7h30 ou 13h30).</p>
+<details><summary>Premissas</summary>
+<label>Km por viagem (via Colemar)</label><input id="b_km" type="number" value="36.5" step="0.1">
+<label>Dias letivos por mês</label><input id="b_d" type="number" value="22">
+<p class="note">Até 4 viagens, um veículo fecha o quadro. Com 6, entra um segundo veículo: às 12h e às 18h seria preciso estar nas duas pontas ao mesmo tempo.</p>
+</details>
 </div>
 </div>
 
@@ -227,22 +222,37 @@ var pts=[[-16.6046,-49.2624,'Câmpus Samambaia'],[-16.6768,-49.2440,'Câmpus Col
 pts.forEach(function(p){L.circleMarker([p[0],p[1]],{radius:7,color:'#1F4E78',fillColor:'#fff',fillOpacity:1,weight:2}).addTo(map).bindTooltip(p[2],{permanent:true,direction:'right',className:'lbl'});});
 map.fitBounds(L.featureGroup([lA,lB]).getBounds().pad(0.08));
 function brl(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});}
+// Quadro de horários na ordem em que as viagens entram: [saída, veículo, sentido, chegada, atende, chega depois da aula]
+var QA=[['6h50','V1','Terminal → Câmpus','7h10 a 7h20','Entrada manhã',0],['12h00','V1','Câmpus → Terminal','12h20 a 12h30','Saída manhã',0],
+ ['12h40','V1','Terminal → Câmpus','13h00 a 13h10','Entrada tarde',0],['18h00','V1','Câmpus → Terminal','18h20 a 18h35','Saída tarde',0],
+ ['18h30','V1','Terminal → Câmpus','18h50 a 19h05','Entrada noite',0],['22h10','V1','Câmpus → Terminal','22h30 a 22h40','Saída noite',0]];
+var QB1=[['6h50','V1','Samambaia → Aparecida','7h45 a 8h30','Entrada manhã',1],['12h00','V1','Aparecida → Samambaia','12h55 a 13h30','Saída manhã',0],
+ ['13h30','V1','Samambaia → Aparecida','14h25 a 15h10','Entrada tarde',1],['18h00','V1','Aparecida → Samambaia','19h00 a 19h40','Saída tarde',0]];
+var QB2=[QB1[0],QB1[1],['12h40','V2','Samambaia → Aparecida','13h35 a 14h20','Entrada tarde',1],['18h00','V2','Aparecida → Samambaia','19h00 a 19h40','Saída tarde',0],
+ ['17h20','V1','Samambaia → Aparecida','18h15 a 19h00','Entrada noite',0],['22h10','V1','Aparecida → Samambaia','23h00 a 23h50','Saída noite',0]];
+function nvB(){return +document.getElementById('b_v').value>4?2:1;}
+function quadro(p){
+  var v=+document.getElementById(p+'_v').value, nv=p==='b'?nvB():1;
+  var q=(p==='a'?QA:(nv===2?QB2:QB1)).slice(0,v);
+  var h='<tr><th>Saída</th>'+(nv===2?'<th>Veículo</th>':'')+'<th>Sentido</th><th>Chega</th><th>Atende</th></tr>';
+  q.forEach(function(r){h+='<tr><td class="t">'+r[0]+'</td>'+(nv===2?'<td>'+r[1]+'</td>':'')+'<td>'+r[2]+'</td><td class="t'+(r[5]?' late':'')+'">'+r[3]+'</td><td>'+r[4]+'</td></tr>';});
+  document.getElementById(p+'_quadro').innerHTML=h;
+}
 function calc(p){
   var v=+document.getElementById(p+'_v').value, km=+document.getElementById(p+'_km').value, d=+document.getElementById(p+'_d').value;
-  var t=document.getElementById(p+'_tipo').value.split('|'), lo=+t[0], hi=+t[1], piso=+t[2];
+  var t=document.getElementById(p+'_tipo').value.split('|'), lo=+t[0], hi=+t[1], piso=+t[2], nv=p==='b'?nvB():1;
   if(p==='a'){var sn=document.getElementById('a_sent').value.split('|'); if(sn[1]==='0'){piso=0; lo=lo*1.15; hi=hi*1.15;}}
-  if(p==='b'){var nv=+document.getElementById('b_nv').value; piso=piso*nv; if(nv===2){lo=lo*1.1; hi=hi*1.1;}}
+  piso=piso*nv; if(nv===2){lo=lo*1.1; hi=hi*1.1;}
   var kmm=v*km*d, cmin=Math.max(kmm*lo,piso), cmax=Math.max(kmm*hi,piso);
-  document.getElementById(p+'_kmmes').textContent=Math.round(kmm).toLocaleString('pt-BR');
-  document.getElementById(p+'_min').textContent=brl(cmin);
-  document.getElementById(p+'_max').textContent=brl(cmax);
-  var obs= (p==='a' && piso===0)?'Modelo por demanda: paga só o km com passageiro. Só é viável se o fornecedor tiver outro uso para o veículo entre as viagens (modelo UFC). Preço por km 15% acima da faixa de veículo dedicado.':(kmm*lo<piso)?'Quilometragem abaixo do piso: o fornecedor cobra o veículo dedicado (≈ '+brl(piso)+'), não o km.':'Custo por km domina. Faixa por km: R$ '+lo.toFixed(2).replace('.',',')+' a '+hi.toFixed(2).replace('.',',')+'.';
-  document.getElementById(p+'_obs').textContent=obs;
+  document.getElementById(p+'_custo').textContent=Math.round(cmin)===Math.round(cmax)?brl(cmin):brl(cmin)+' a '+brl(cmax);
+  var obs=piso===0?'sem piso, paga por viagem realizada':(kmm*hi<=piso)?'abaixo do piso: paga o mínimo do veículo dedicado':'R$ '+lo.toFixed(2).replace('.',',')+' a '+hi.toFixed(2).replace('.',',')+' por km';
+  document.getElementById(p+'_sub').textContent=Math.round(kmm).toLocaleString('pt-BR')+' km/mês'+(p==='b'?' · '+nv+(nv>1?' veículos':' veículo'):'')+' · '+obs;
+  quadro(p);
   return [cmin,cmax];
 }
 function all(){
   var a=calc('a'), b=calc('b');
-  function fx(id,x){document.getElementById(id).textContent=brl(x[0])+' a '+brl(x[1]);}
+  function fx(id,x){document.getElementById(id).textContent=Math.round(x[0])===Math.round(x[1])?brl(x[0]):brl(x[0])+' a '+brl(x[1]);}
   fx('r_a_m',a); fx('r_a_y',[a[0]*9,a[1]*9]); fx('r_b_m',b); fx('r_b_y',[b[0]*9,b[1]*9]);
   fx('r_ab_m',[a[0]+b[0],a[1]+b[1]]); fx('r_ab_y',[(a[0]+b[0])*9,(a[1]+b[1])*9]);
   var sal=+document.getElementById('f_sal').value, ma=+document.getElementById('f_ma').value, mb=+document.getElementById('f_mb').value, res=+document.getElementById('f_res').value, ck=+document.getElementById('f_km').value;
@@ -250,11 +260,17 @@ function all(){
   var kmb=+document.getElementById('b_v').value*+document.getElementById('b_km').value*+document.getElementById('b_d').value;
   var preco=+document.getElementById('f_preco').value, vida=+document.getElementById('f_vida').value, aq=document.getElementById('f_usar').checked?0:preco/(vida*12);
   function row(id,n,folha,veic,aqm,fret){document.getElementById(id+'_n').textContent=n;document.getElementById(id+'_folha').textContent=brl(folha);document.getElementById(id+'_veic').textContent=brl(veic);document.getElementById(id+'_aq').textContent=brl(aqm);document.getElementById(id+'_tot').textContent=brl(folha+veic+aqm);document.getElementById(id+'_fret').textContent=brl(fret[0])+' a '+brl(fret[1]);}
-  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq*+document.getElementById('b_nv').value,b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,(1+ +document.getElementById('b_nv').value)*aq,[a[0]+b[0],a[1]+b[1]]);
-  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl((1+ +document.getElementById('b_nv').value)*preco)+' para as duas linhas)';
+  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq*nvB(),b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,(1+ nvB())*aq,[a[0]+b[0],a[1]+b[1]]);
+  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl((1+ nvB())*preco)+' para as duas linhas)';
 }
 document.getElementById('a_sent').addEventListener('change',function(){document.getElementById('a_km').value=this.value.split('|')[0];});
 document.querySelectorAll('input,select').forEach(function(e){e.addEventListener('input',all);e.addEventListener('change',all);});
+document.querySelectorAll('.seg').forEach(function(s){
+  var inp=document.getElementById(s.dataset.for);
+  function marca(){s.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===inp.value);});}
+  s.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){inp.value=b.dataset.v;marca();all();});});
+  marca();
+});
 all();
 </script>
 <style>.lbl{background:#fff;border:1px solid #1F4E78;border-radius:0;font-family:Arial;font-size:11px;color:#1F4E78;box-shadow:none}.lbl:before{display:none}</style>
