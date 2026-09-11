@@ -140,7 +140,6 @@ summary{cursor:pointer;color:#1F4E78}
 
 
 <h2>4. Frota própria: motorista da UFG nos 2 turnos</h2>
-<p class="note"><b>Frota própria pressupõe veículo disponível.</b> A calculadora abaixo nasce marcada para usar veículos da frota atual da CTR. Se eles não estiverem livres nos horários, desmarque a opção e o custo de compra entra: micro-ônibus R$ 450 a 550 mil, ônibus urbano R$ 750 a 950 mil, pagos à vista no ano da compra, além do rateio mensal na tabela.</p>
 <p class="note">Premissa: motorista a R$ 6.300/mês (salário e encargos), jornada de 40 horas semanais, 8 horas por dia, com intervalo. Regras da Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas. As escalas abaixo cobrem manhã e tarde com dois turnos de 8 horas por linha: a janela de operação, das 6h20 às 18h40 na Linha A e às 20h na Linha B, passa de 10 horas e não cabe em uma jornada só.</p>
 <div class="grid">
 <div class="box">
@@ -161,45 +160,6 @@ summary{cursor:pointer;color:#1F4E78}
 </table>
 <p class="note">Dois motoristas para um veículo. Se a Reitoria incluir o turno noturno, entram um segundo veículo e um terceiro motorista.</p>
 </div>
-</div>
-
-<div class="box" style="margin-top:20px">
-<h3>Frota atual da CTR (levantamento de 30/04/2026, Fernando)</h3>
-<table>
-<tr><th>Tipo</th><th class="num">Qtd</th><th>Características</th><th>Uso possível nas linhas</th></tr>
-<tr><td>Ônibus rodoviário</td><td class="num">3</td><td>Ar condicionado e banheiro</td><td>Viagens de campo e longas distâncias. Não recomendado para linha urbana curta (custo por km alto, banheiro sem uso).</td></tr>
-<tr><td>Ônibus rodoviário</td><td class="num">1</td><td>Ar condicionado, sem banheiro</td><td>Pode servir à Linha B (intercampi) se estiver ocioso nos horários.</td></tr>
-<tr><td>Ônibus rodoviário</td><td class="num">1</td><td>Apropriado para via sem pavimentação</td><td>Aulas de campo. Fora do escopo das linhas.</td></tr>
-<tr><td>Ônibus coletivo urbano</td><td class="num">2</td><td>Padrão urbano</td><td>Candidato natural à Linha B (intercampi) e à Linha A se a demanda passar de 28 passageiros por viagem.</td></tr>
-<tr><td>Micro-ônibus</td><td class="num">2</td><td>Apropriado para via sem pavimentação</td><td>Aulas de campo. Fora do escopo das linhas.</td></tr>
-<tr><td>Micro-ônibus</td><td class="num">1</td><td>Via pavimentada</td><td>Candidato natural à Linha A (Terminal Araguaia), 10,8 km em via urbana.</td></tr>
-<tr class="total"><td>Total</td><td class="num">10</td><td colspan="2">A UFG já tem veículo compatível para as duas linhas: 1 micro-ônibus urbano para a Linha A e 1 ônibus urbano para a Linha B. A compra só se justifica se esses veículos estiverem comprometidos com aulas de campo nos horários das linhas ou com manutenção acima do aceitável.</td></tr>
-</table>
-<label><input type="checkbox" id="f_usar" checked style="width:auto;margin-right:6px"> Usar veículos da frota atual (zera a coluna de aquisição)</label>
-<p class="note">Antes de decidir, a CTR precisa informar: idade e quilometragem dos dois veículos candidatos, histórico de manutenção de 12 meses e a agenda de uso atual (quantos dias por mês estão em aulas de campo). Um veículo que roda 2 dias por semana em campo não sustenta uma linha diária.</p>
-<h3>Cálculo</h3>
-<div class="grid">
-<div>
-<label>Custo mensal por motorista (R$)</label><input id="f_sal" type="number" value="6300">
-<label>Motoristas Linha A</label><input id="f_ma" type="number" value="2" min="0">
-<label>Motoristas Linha B</label><input id="f_mb" type="number" value="2" min="0">
-<label>Motoristas reserva (férias e faltas, compartilhados)</label><input id="f_res" type="number" value="1" min="0">
-</div>
-<div>
-<label>Custo operacional do veículo por km (combustível, manutenção, pneus, seguro; sem depreciação)</label><input id="f_km" type="number" value="2.9" step="0.1">
-<label>Preço de aquisição do veículo (R$, um por linha)</label><input id="f_preco" type="number" value="480000" step="10000">
-<label>Vida útil para rateio (anos)</label><input id="f_vida" type="number" value="10" min="1">
-<p class="note">Referências de aquisição (2026, valores de mercado a confirmar em pesquisa de preços): van 15 lugares R$ 350 a 400 mil; micro-ônibus 28 lugares R$ 450 a 550 mil; ônibus urbano 44 lugares R$ 750 a 950 mil. Rateio linear, sem juros. O custo por km acima é só operação; a depreciação entra na coluna de aquisição.</p>
-</div>
-</div>
-<table>
-<tr><th>Cenário</th><th class="num">Motoristas</th><th class="num">Folha</th><th class="num">Operação (km)</th><th class="num">Aquisição (rateio mensal)</th><th class="num">Total frota própria</th><th class="num">Fretamento (faixa)</th></tr>
-<tr><td>Linha A</td><td class="num" id="f_a_n"></td><td class="num" id="f_a_folha"></td><td class="num" id="f_a_veic"></td><td class="num" id="f_a_aq"></td><td class="num" id="f_a_tot"></td><td class="num" id="f_a_fret"></td></tr>
-<tr><td>Linha B</td><td class="num" id="f_b_n"></td><td class="num" id="f_b_folha"></td><td class="num" id="f_b_veic"></td><td class="num" id="f_b_aq"></td><td class="num" id="f_b_tot"></td><td class="num" id="f_b_fret"></td></tr>
-<tr class="total"><td>A + B com reserva</td><td class="num" id="f_ab_n"></td><td class="num" id="f_ab_folha"></td><td class="num" id="f_ab_veic"></td><td class="num" id="f_ab_aq"></td><td class="num" id="f_ab_tot"></td><td class="num" id="f_ab_fret"></td></tr>
-</table>
-<p class="note"><b>Atenção ao investimento inicial.</b> Se não houver veículo disponível na frota atual, a frota própria exige comprar antes de rodar: um veículo para cada linha, desembolso à vista de <span id="f_capex"></span>, em orçamento de investimento (GND 4), com processo de compra de 6 a 12 meses. O fretamento não tem esse desembolso. O rateio mensal na tabela só distribui o preço pela vida útil para permitir a comparação; o dinheiro sai todo no ano da compra.</p>
-<p class="note">A folha da frota própria é custo fixo de 12 meses; o fretamento paga só meses letivos. Na comparação anual, multiplique a folha por 12 e o fretamento por 9. A frota própria só compensa se a UFG já tiver o veículo disponível e o motorista puder ser aproveitado em outras rotas nos intervalos.</p>
 </div>
 
 <h2>5. Fontes</h2>
@@ -255,13 +215,6 @@ function all(){
   function fx(id,x){document.getElementById(id).textContent=Math.round(x[0])===Math.round(x[1])?brl(x[0]):brl(x[0])+' a '+brl(x[1]);}
   fx('r_a_m',a); fx('r_a_y',[a[0]*9,a[1]*9]); fx('r_b_m',b); fx('r_b_y',[b[0]*9,b[1]*9]);
   fx('r_ab_m',[a[0]+b[0],a[1]+b[1]]); fx('r_ab_y',[(a[0]+b[0])*9,(a[1]+b[1])*9]);
-  var sal=+document.getElementById('f_sal').value, ma=+document.getElementById('f_ma').value, mb=+document.getElementById('f_mb').value, res=+document.getElementById('f_res').value, ck=+document.getElementById('f_km').value;
-  var kma=+document.getElementById('a_v').value*+document.getElementById('a_km').value*+document.getElementById('a_d').value;
-  var kmb=+document.getElementById('b_v').value*+document.getElementById('b_km').value*+document.getElementById('b_d').value;
-  var preco=+document.getElementById('f_preco').value, vida=+document.getElementById('f_vida').value, aq=document.getElementById('f_usar').checked?0:preco/(vida*12);
-  function row(id,n,folha,veic,aqm,fret){document.getElementById(id+'_n').textContent=n;document.getElementById(id+'_folha').textContent=brl(folha);document.getElementById(id+'_veic').textContent=brl(veic);document.getElementById(id+'_aq').textContent=brl(aqm);document.getElementById(id+'_tot').textContent=brl(folha+veic+aqm);document.getElementById(id+'_fret').textContent=brl(fret[0])+' a '+brl(fret[1]);}
-  row('f_a',ma,ma*sal,kma*ck,aq,a); row('f_b',mb,mb*sal,kmb*ck,aq*nvB(),b); row('f_ab',ma+mb+res,(ma+mb+res)*sal,(kma+kmb)*ck,(1+ nvB())*aq,[a[0]+b[0],a[1]+b[1]]);
-  document.getElementById('f_capex').textContent=document.getElementById('f_usar').checked?'zero, se os veículos da frota atual forem liberados para as linhas (opção marcada acima); caso contrário '+brl(preco)+' por veículo':brl(preco)+' por veículo ('+brl((1+ nvB())*preco)+' para as duas linhas)';
 }
 document.getElementById('a_sent').addEventListener('change',function(){document.getElementById('a_km').value=this.value.split('|')[0];});
 document.querySelectorAll('input,select').forEach(function(e){e.addEventListener('input',all);e.addEventListener('change',all);});
