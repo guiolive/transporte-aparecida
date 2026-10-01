@@ -47,6 +47,7 @@ td.t{white-space:nowrap}
 @media(max-width:520px){.custo b{font-size:22px}.ctl{grid-template-columns:1fr}.box table{font-size:12px}.box th,.box td{padding:5px}}
 details{margin-top:8px;font-size:12px}
 summary{cursor:pointer;color:#1F4E78}
+.esc{margin-top:8px}
 </style>
 </head>
 <body>
@@ -76,9 +77,11 @@ summary{cursor:pointer;color:#1F4E78}
 <tr><td>UFRJ, Contrato 07/2026 (campus Macaé), Confianza Transportes. <a href="https://pncp.gov.br/app/contratos/33663683000116/2026/18" target="_blank">PNCP</a></td><td>Linha interpolos com ônibus, motorista e combustível, remuneração por km rodado, medição mensal, mais de um veículo</td><td class="num">não informado</td><td class="num">R$ 123,5 mil<br><small>(R$ 1,48 milhão/ano)</small></td><td>Operação de mais de um veículo, dia inteiro, em cidade média. Ordem de grandeza de um serviço maduro, não de um piloto.</td></tr>
 <tr><td>UFPel, Contrato 58/2025, Kopereck. <a href="https://pncp.gov.br/app/contratos/92242080000100/2025/1748" target="_blank">PNCP</a></td><td>Reforço da linha de apoio, pago por passagem: R$ 8,55 por passageiro, 3,3 milhões de passagens em 5 anos</td><td class="num">não se aplica</td><td class="num">≈ R$ 470 mil<br><small>(R$ 28,2 milhões em 60 meses)</small></td><td>Modelo por passageiro só faz sentido com demanda alta e medida (UFPel: 90 mil passageiros/mês). Não recomendado para piloto.</td></tr>
 </table>
+<details><summary>Como ler a tabela: o que é o piso e a faixa adotada para Goiânia</summary>
 <p class="note">Só os contratos pagos por km permitem comparar preço unitário. Os demais entram como ordem de grandeza do custo mensal de uma operação inteira; o PNCP não publica a quilometragem ou o número de viagens que permitiria converter para km.</p>
 <p class="note"><b>O que é o piso.</b> Nos contratos com veículo dedicado, o edital fixa uma franquia mínima de quilometragem por mês, e a UFG paga essa franquia inteira mesmo rodando menos. No contrato da UFPI são 3.000 km/mês a R$ 9,26/km: mínimo de R$ 27.780 por ônibus, rodando 500 ou 3.000 km. Em troca, o fornecedor mantém veículo e motorista exclusivos para a UFG nos horários do quadro. Viagem não realizada é descontada da fatura (glosa) e gera multa: o piso paga a disponibilidade, não a falta. Sem franquia (por km rodado como na UFC, ou por viagem realizada como no IFPE), o fornecedor continua obrigado a cumprir o quadro contratado; o que muda é onde entra o custo do veículo parado: em vez de um mínimo mensal, ele vai embutido no preço do km ou da viagem, que por isso é maior. Nesse modelo o contrato precisa fixar o quadro de horários como obrigação, o prazo de solicitação de viagens extras e a glosa por falta. No painel, o piso é o valor mínimo mensal por porte de veículo estimado para Goiânia; a calculadora usa o maior entre km × preço e o piso.</p>
 <p class="note">Faixa adotada para Goiânia/Aparecida, com veículo e motorista dedicados (o preço por km cai quando a franquia mensal sobe; abaixo de 2.500 km/mês o piso passa a mandar): van 15 lugares R$ 6,50 a 8,00/km (piso ≈ R$ 14 mil/mês); micro-ônibus 28 lugares R$ 8,00 a 9,50/km (piso ≈ R$ 18 mil/mês); ônibus 44 lugares R$ 9,50 a 11,00/km (piso ≈ R$ 24 mil/mês).</p>
+</details>
 
 <h2>3. Painel de custo</h2>
 <div class="grid">
@@ -140,8 +143,10 @@ summary{cursor:pointer;color:#1F4E78}
 
 
 <h2>4. Frota própria: motorista da UFG nos 2 turnos</h2>
+<div class="custo"><b>R$ 25.200</b> <small>por mês</small><span>4 motoristas da UFG (2 por linha) a R$ 6.300 cada, sem contar veículo, combustível e manutenção</span></div>
+<details><summary>Premissas e escalas dos motoristas</summary>
 <p class="note">Premissa: motorista a R$ 6.300/mês (salário e encargos), jornada de 40 horas semanais, 8 horas por dia, com intervalo. Regras da Lei 13.103/2015: no máximo 5h30 de direção contínua e 11 horas de descanso entre jornadas. As escalas abaixo cobrem manhã e tarde com dois turnos de 8 horas por linha: a janela de operação, das 6h20 às 18h40 na Linha A e às 20h na Linha B, passa de 10 horas e não cabe em uma jornada só.</p>
-<div class="grid">
+<div class="grid esc">
 <div class="box">
 <h3>Escala Linha A (Terminal Araguaia)</h3>
 <table>
@@ -161,8 +166,10 @@ summary{cursor:pointer;color:#1F4E78}
 <p class="note">Dois motoristas para um veículo. Se a Reitoria incluir o turno noturno, entram um segundo veículo e um terceiro motorista.</p>
 </div>
 </div>
+</details>
 
-<h2>5. Fontes</h2>
+<h2>5. Locais pesquisados</h2>
+<details><summary>Ver locais pesquisados</summary>
 <ul>
 <li>PNCP, contratos citados na tabela 2 (consulta em 02 e 03/09/2026).</li>
 <li>Tempos e distâncias: Google Maps, trânsito típico de quinta-feira, consulta em 03/09/2026 com horário de partida definido. Traçado do mapa: OSRM (OpenStreetMap), coordenadas Terminal Araguaia (-16,8115; -49,2417), Câmpus Aparecida (-16,8437; -49,1768), Praça Universitária (-16,6768; -49,2440), Câmpus Samambaia (-16,6046; -49,2624).</li>
@@ -170,6 +177,7 @@ summary{cursor:pointer;color:#1F4E78}
 <li>Estudo anterior DLOG: Estudo de viabilidade de transporte intercampi UFG (jul. 2026).</li>
 <li>PNAES: Decreto 7.234/2010 e Lei 14.914/2024 (Política Nacional de Assistência Estudantil).</li>
 </ul>
+</details>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
